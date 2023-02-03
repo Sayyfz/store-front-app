@@ -7,7 +7,7 @@
         "start": "nodemon -r dotenv/config src/server.ts",
         "build": "npx tsc && -r dotenv/config nodemon dist/server.js",
         "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-        "test": "jasmine-ts",
+        "test": "set ENV=dev&& jasmine-ts -r dotenv/config",
         "tsc": "tsc"
     },
     "license": "ISC",
@@ -27,11 +27,13 @@
         "@types/jasmine": "^4.3.1",
         "@types/jsonwebtoken": "^9.0.1",
         "@types/pg": "^7.14.7",
+        "@types/supertest": "^2.0.12",
         "dotenv": "^16.0.3",
         "jasmine": "^3.6.4",
         "jasmine-spec-reporter": "^7.0.0",
         "jasmine-ts": "^0.3.0",
         "nodemon": "^2.0.20",
+        "supertest": "^6.3.3",
         "ts-node": "^10.9.1",
         "tsc-watch": "^4.2.9",
         "typescript": "^4.9.5"
