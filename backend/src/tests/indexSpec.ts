@@ -2,12 +2,12 @@ import request from 'supertest';
 import app from '../server';
 const fetcher = request(app);
 
-describe('Main Spec', () => {
+describe('MAIN SPEC', () => {
     it('Should return an html string', done => {
-        const res = fetcher
+        fetcher
             .get('/')
-            .expect(200)
-            .expect('Content-Type', /text\/html/, done);
+            .expect('Content-Type', /text\/html/)
+            .expect(200, done);
     });
 });
 

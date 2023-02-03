@@ -1,4 +1,4 @@
-import { UserStore } from '../models/user';
+import { UserStore, User } from '../models/user';
 import { Request, Response } from 'express';
 
 const store = new UserStore();
@@ -8,6 +8,7 @@ export const index = async (req: Request, res: Response) => {
         const users = await store.index();
         return res.status(200).json(users);
     } catch (err) {
+        console.log(err);
         return res.status(400).json((err as Error).message);
     }
 };
@@ -22,7 +23,6 @@ export const show = async (req: Request, res: Response) => {
 };
 
 export const create = async (req: Request, res: Response) => {
-    //@ts-ignore
     const newUser: User = {
         firstName: req.body.first_name,
         lastName: req.body.last_name,

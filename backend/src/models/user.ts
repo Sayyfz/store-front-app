@@ -2,7 +2,7 @@ import client from '../database';
 import bcrypt from 'bcrypt';
 
 export interface User {
-    id: number;
+    id?: number;
     firstName: string;
     lastName: string;
     password: string;
@@ -37,16 +37,10 @@ export class UserStore {
     async create(user: User): Promise<User> {
         try {
             const conn = await client.connect();
-            const sql =
-                'INSERT INTO users (id, first_name, last_name, password) VALUES($1, $2, $3, $4)';
+            const sql = 'INSERT INTO users (first_name, last_name, password) VALUES($1, $2, $3)';
 
             //Do bcrypt stuff
-            const result = await conn.query(sql, [
-                user.id,
-                user.firstName,
-                user.lastName,
-                user.password,
-            ]);
+            const result = await conn.query(sql, [user.firstName, user.lastName, user.password]);
 
             conn.release();
             return result.rows[0];
