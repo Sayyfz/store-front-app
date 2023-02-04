@@ -40,8 +40,11 @@ export class UserStore {
             const sql =
                 'INSERT INTO users (first_name, last_name, password) VALUES($1, $2, $3) RETURNING *';
 
-            //Do bcrypt stuff
-            const result = await conn.query(sql, [user.firstName, user.lastName, user.password]);
+            const hash = bcrypt.hashSync(
+                user.password + process.env.PEPPER,
+                parseInt(process.env.SALT_ROUNDS || '10'),
+            );
+            const result = await conn.query(sql, [user.firstName, user.lastName, hash]);
 
             conn.release();
             return result.rows[0];
