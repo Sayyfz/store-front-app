@@ -37,7 +37,8 @@ export class UserStore {
     async create(user: User): Promise<User> {
         try {
             const conn = await client.connect();
-            const sql = 'INSERT INTO users (first_name, last_name, password) VALUES($1, $2, $3)';
+            const sql =
+                'INSERT INTO users (first_name, last_name, password) VALUES($1, $2, $3) RETURNING *';
 
             //Do bcrypt stuff
             const result = await conn.query(sql, [user.firstName, user.lastName, user.password]);

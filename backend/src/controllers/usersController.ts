@@ -31,6 +31,7 @@ export const create = async (req: Request, res: Response) => {
 
     try {
         const user = await store.create(newUser);
+        console.log(user);
         return res.status(200).json(user);
     } catch (err) {
         return res.status(400).json((err as Error).message);
