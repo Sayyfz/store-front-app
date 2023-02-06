@@ -5,6 +5,7 @@ export interface User {
     id?: number;
     firstName: string;
     lastName: string;
+    username: string;
     password: string;
 }
 
@@ -25,7 +26,7 @@ export class UserStore {
     async show(id: number): Promise<User> {
         try {
             const conn = await client.connect();
-            const sql = 'SELECT * FROM users WHERE id = $1';
+            const sql = 'SELECT * FROM users WHERE id=($1)';
             const result = await conn.query(sql, [id]);
             conn.release();
             return result.rows[0];
@@ -38,18 +39,40 @@ export class UserStore {
         try {
             const conn = await client.connect();
             const sql =
-                'INSERT INTO users (first_name, last_name, password) VALUES($1, $2, $3) RETURNING *';
+                'INSERT INTO users (first_name, last_name, username, password) VALUES($1, $2, $3, $4) RETURNING *';
 
             const hash = bcrypt.hashSync(
                 user.password + process.env.PEPPER,
                 parseInt(process.env.SALT_ROUNDS || '10'),
             );
-            const result = await conn.query(sql, [user.firstName, user.lastName, hash]);
+            const result = await conn.query(sql, [
+                user.firstName,
+                user.lastName,
+                user.username,
+                hash,
+            ]);
 
             conn.release();
             return result.rows[0];
         } catch (err) {
             throw new Error(`Cannot create user: ${err}`);
+        }
+    }
+
+    async authenticate(username: string, password: string): Promise<User | undefined> {
+        try {
+            const conn = await client.connect();
+            const sql = 'SELECT password FROM users WHERE username=$1';
+            const result = await conn.query(sql, [username]);
+            conn.release();
+
+            if (result.rows.length) {
+                const user = result.rows[0];
+                if (bcrypt.compareSync(password + process.env.PEPPER, user.password)) return user;
+                throw { err: 'Incorrect Password', status: 401 };
+            } else throw { err: `username ${username} doesn't exist`, status: 400 };
+        } catch (err) {
+            throw err;
         }
     }
 }
