@@ -24,9 +24,8 @@ export class OrderStore {
         try {
             const conn = await client.connect();
             const sql = 'INSERT INTO orders (user_id, status) VALUES ($1, $2) RETURNING *';
-            console.log(order);
             const result = await conn.query(sql, [order.user_id, order.status]);
-
+            result.rows[0].user_id = parseInt(result.rows[0].user_id);
             conn.release();
             return result.rows[0];
         } catch (err) {
@@ -39,6 +38,7 @@ export class OrderStore {
             const conn = await client.connect();
             const sql = 'SELECT * FROM orders WHERE id=($1)';
             const result = await conn.query(sql, [id]);
+            result.rows[0].user_id = parseInt(result.rows[0].user_id);
 
             conn.release();
             return result.rows[0];
@@ -60,6 +60,9 @@ export class OrderStore {
             const sql =
                 'INSERT INTO order_products (order_id, product_id, quantity) VALUES ($1, $2, $3) RETURNING *';
             const result = await conn.query(sql, [order_id, product_id, quantity]);
+            const order_product = result.rows[0];
+            order_product.order_id = parseInt(order_product.order_id);
+            order_product.product_id = parseInt(order_product.product_id);
             conn.release();
 
             return result.rows[0];

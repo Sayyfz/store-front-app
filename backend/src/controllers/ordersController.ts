@@ -17,6 +17,7 @@ export const create = async (req: Request, res: Response) => {
         user_id: req.body.user_id,
         status: req.body.status,
     };
+
     try {
         const newOrder = await store.create(order);
         return res.status(200).json(newOrder);
@@ -35,7 +36,6 @@ export const show = async (req: Request, res: Response) => {
 };
 
 export const addProduct = async (req: Request, res: Response) => {
-    console.log(req.body);
     const order_id = parseInt(req.params.id);
     const product_id = req.body.product_id;
     const quantity = req.body.quantity;

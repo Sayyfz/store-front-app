@@ -45,6 +45,9 @@ $ npm install
 
 # Run the server
 $ npm run start
+
+# Run the tests
+$ npm run test
 ```
 
 > **Note**

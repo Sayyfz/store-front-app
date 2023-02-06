@@ -1,16 +1,32 @@
 import fetcher from '../indexSpec';
-import { Order } from '../../models/order';
 import supertest from 'supertest';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { User } from '../../models/user';
+import { Product } from '../../models/product';
 
 describe('ORDERS ROUTE SPEC', () => {
-    beforeAll(done => {
-        fetcher
-            .post('/users')
-            .send({ first_name: 'joe', last_name: 'khalid', password: 'password' })
-            .end((err, res: supertest.Response) => {
-                if (err) console.log(err);
-                done();
-            });
+    let token: string;
+    let user: User;
+    let product: Product;
+
+    beforeAll(async () => {
+        const postUsersRes = await fetcher.post('/users').send({
+            first_name: 'joe',
+            last_name: 'khalid',
+            username: 'WillSmith',
+            password: 'password',
+        });
+
+        token = `Bearer ${postUsersRes.body}`;
+        const decoded = jwt.decode(postUsersRes.body) as JwtPayload;
+        user = decoded?.user;
+
+        const postProductsRes = await fetcher.post('/products').set('Authorization', token).send({
+            name: 'test product',
+            price: 200,
+            category: 'misc',
+        });
+        product = postProductsRes.body;
     });
 
     it('GET /orders should return json', (done: DoneFn) => {
@@ -27,12 +43,11 @@ describe('ORDERS ROUTE SPEC', () => {
     it('Post request to /orders should create an order successfully', done => {
         fetcher
             .post('/orders')
-            .send({ user_id: '1', status: 'active' })
+            .send({ user_id: user.id, status: 'active' })
             .expect('Content-Type', /json/)
             .end((err, res: supertest.Response) => {
                 if (err) console.log(err);
-
-                expect(res.body).toEqual({ id: 1, user_id: 1, status: 'active' });
+                expect(res.body).toEqual({ id: 1, user_id: user.id, status: 'active' });
 
                 done();
             });
@@ -46,7 +61,26 @@ describe('ORDERS ROUTE SPEC', () => {
             .end((err, res: supertest.Response) => {
                 if (err) console.log(err);
 
-                expect(res.body).toEqual({ id: 1, user_id: 1, status: 'active' });
+                expect(res.body).toEqual({ id: 1, user_id: user.id, status: 'active' });
+                done();
+            });
+    });
+
+    it('POST request to /orders/:id/products add a product to the specified order successfully', done => {
+        fetcher
+            .post('/orders/1/products')
+            .send({ product_id: product.id, quantity: 14 })
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end((err, res: supertest.Response) => {
+                if (err) console.log(err);
+
+                expect(res.body).toEqual({
+                    id: 1,
+                    order_id: 1,
+                    product_id: product.id,
+                    quantity: 14,
+                });
                 done();
             });
     });

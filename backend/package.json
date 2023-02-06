@@ -7,7 +7,7 @@
         "start": "nodemon -r dotenv/config src/server.ts",
         "build": "npx tsc && -r dotenv/config nodemon dist/server.js",
         "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-        "test": "set ENV=test&& db-migrate up -e test && jasmine-ts -r dotenv/config  && db-migrate reset -e test ",
+        "test": "set ENV=test&& db-migrate reset -e test &&  db-migrate up -e test && jasmine-ts -r dotenv/config",
         "tsc": "tsc"
     },
     "license": "ISC",
