@@ -93,11 +93,13 @@ $ npm run start
 ##### **All data shapes have an auto-generated id which we don't need to provide unless it's required in the url parameters. However, in all cases we don't need it in a request body.**
 
 <br />
+
 #### **User**
-- first_name: string
-- last_name: string
-- username: string
-- password: string
+
+-   first_name: string
+-   last_name: string
+-   username: string
+-   password: string
 
 #### **Product**
 
