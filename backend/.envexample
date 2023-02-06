@@ -1,0 +1,10 @@
+PORT=8585
+POSTGRES_HOST=127.0.0.1
+POSTGRES_DB=database_name
+POSTGRES_DB_TEST=database_name_test
+POSTGRES_USER=test_user
+POSTGRES_PASSWORD=password
+ENV=dev
+TOKEN_SECRET=secret
+SALT_ROUNDS=10
+PEPPER=pepper_password

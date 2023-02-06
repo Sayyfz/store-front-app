@@ -13,6 +13,7 @@
   <a href="#how-to-use">How To Use</a> •  
   <a href="#endpoints">Endpoints</a> •
   <a href="#data-shapes">Data Shapes</a> •
+  <a href="#data-shapes">Environment Variables</a> •
   <a href="#credits">Credits</a> •
 </p>
 
@@ -121,6 +122,19 @@ $ npm run test
 
 -   product_id: number
 -   quantity: number
+
+## Environment Variables
+
+-   PORT=5000
+-   POSTGRES_HOST=127.0.0.1
+-   POSTGRES_DB=store_front
+-   POSTGRES_DB_TEST=store_front_test
+-   POSTGRES_USER=test_user
+-   POSTGRES_PASSWORD=password123
+-   ENV=dev
+-   TOKEN_SECRET=secret
+-   SALT_ROUNDS=10
+-   PEPPER=BCRYPT_PASSWORD_PEPPER
 
 ## Credits
 

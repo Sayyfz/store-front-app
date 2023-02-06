@@ -75,5 +75,3 @@ describe('PRODUCTS ROUTE SPEC', () => {
             });
     });
 });
-
-//TODO: MIGRATION DOWN DOESNT RUN AFTER TEST ___________________________________________________________
