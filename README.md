@@ -51,6 +51,33 @@ $ npm run start
 $ npm run test
 ```
 
+<br />
+
+#### **Setup database in PSQL terminal (WSL2 or VS code terminal)**
+
+<br />
+
+```bash
+# Create user
+$ CREATE USER test_user WITH PASSWORD 'Pass1234';
+
+# Create database
+$ CREATE DATABASE store_front;
+$ CREATE DATABASE store_front_test;
+
+# Run the database migrations
+$ db-migrate up
+
+# Grant all privileges
+$ GRANT ALL PRIVILEGES ON DATABASE store_front TO test_user;
+$ GRANT ALL PRIVILEGES ON DATABASE store_front_test TO test_user;
+
+# Connect to database
+$ psql -u <username> -p <port> -D <database_name>
+```
+
+<br />
+
 > **Note**
 > If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 
@@ -118,8 +145,7 @@ $ npm run test
 
 #### **Products Inside Orders**
 
-> To add a specific product to an order, you specifiy an existing product id to add it to an existing order id and since you add the order id in the url parameters, we only need to add this info:
-
+-   order_id: number
 -   product_id: number
 -   quantity: number
 
@@ -131,6 +157,10 @@ $ npm run test
 -   POSTGRES_DB_TEST=store_front_test
 -   POSTGRES_USER=test_user
 -   POSTGRES_PASSWORD=password123
+-   POSTGRES_PORT=5432
+
+> Note that a database port variable is not used in the project but i mentioned it as an environment variable to show that it's a possibility
+
 -   ENV=dev
 -   TOKEN_SECRET=secret
 -   SALT_ROUNDS=10

@@ -47,7 +47,11 @@ export class OrderStore {
         }
     }
 
-    async addProduct(quantity: number, order_id: number, product_id: number) {
+    async addProduct(
+        quantity: number,
+        order_id: number,
+        product_id: number,
+    ): Promise<{ quantity: number; product_id: number; order_id: number }> {
         try {
             const conn = await client.connect();
 
@@ -67,7 +71,7 @@ export class OrderStore {
 
             return result.rows[0];
         } catch (err) {
-            throw new Error(`Cannot add product ${product_id} to order ${order_id}: ${err}`);
+            throw new Error(`Cannot add product ${product_id} to order ${order_id} ${err}`);
         }
     }
 }

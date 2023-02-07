@@ -3,6 +3,7 @@ import supertest from 'supertest';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { User } from '../../models/user';
 import { Product } from '../../models/product';
+import { Order } from '../../models/order';
 
 describe('ORDERS ROUTE SPEC', () => {
     let token: string;
@@ -32,6 +33,7 @@ describe('ORDERS ROUTE SPEC', () => {
     it('GET /orders should return json', (done: DoneFn) => {
         fetcher
             .get('/orders')
+            .set('Authorization', token)
             .expect('Content-Type', /json/)
             .expect(200)
             .end((err, res: supertest.Response) => {
@@ -39,48 +41,54 @@ describe('ORDERS ROUTE SPEC', () => {
                 done();
             });
     });
+
+    let testShowOrder: Order;
 
     it('Post request to /orders should create an order successfully', done => {
         fetcher
             .post('/orders')
             .send({ user_id: user.id, status: 'active' })
+            .set('Authorization', token)
             .expect('Content-Type', /json/)
             .end((err, res: supertest.Response) => {
                 if (err) console.log(err);
-                expect(res.body).toEqual({ id: 1, user_id: user.id, status: 'active' });
-
+                expect(res.body.user_id).toEqual(user.id);
+                expect(res.body.status).toEqual('active');
+                testShowOrder = res.body;
                 done();
             });
     });
 
-    it('GET request to /orders/1 should show the order that has id of 1', done => {
+    it('GET request to /orders/:id should show the order that has the specified id', done => {
         fetcher
-            .get('/orders/1')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end((err, res: supertest.Response) => {
-                if (err) console.log(err);
-
-                expect(res.body).toEqual({ id: 1, user_id: user.id, status: 'active' });
-                done();
-            });
-    });
-
-    it('POST request to /orders/:id/products add a product to the specified order successfully', done => {
-        fetcher
-            .post('/orders/1/products')
-            .send({ product_id: product.id, quantity: 14 })
+            .get(`/orders/${testShowOrder.id}`)
+            .set('Authorization', token)
             .expect('Content-Type', /json/)
             .expect(200)
             .end((err, res: supertest.Response) => {
                 if (err) console.log(err);
 
                 expect(res.body).toEqual({
-                    id: 1,
-                    order_id: 1,
-                    product_id: product.id,
-                    quantity: 14,
+                    id: testShowOrder.id,
+                    user_id: testShowOrder.user_id,
+                    status: testShowOrder.status,
                 });
+                done();
+            });
+    });
+
+    it('POST request to /orders/:id/products add a product to the specified order successfully', done => {
+        fetcher
+            .post(`/orders/${testShowOrder.id}/products`)
+            .set('Authorization', token)
+            .send({ product_id: product.id, quantity: 14 })
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end((err, res: supertest.Response) => {
+                if (err) console.log(err);
+                expect(res.body.order_id).toEqual(testShowOrder.id);
+                expect(res.body.product_id).toEqual(product.id);
+                expect(res.body.quantity).toEqual(14);
                 done();
             });
     });

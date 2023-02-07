@@ -62,7 +62,6 @@
 
 #### **Products Inside Orders**
 
-> To add a specific product to an order, you specifiy an existing product id to add it to an existing order id and since you add the order id in the url parameters, we only need to add this info:
-
+-   order_id: number
 -   product_id: number
 -   quantity: number
