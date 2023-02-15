@@ -13,7 +13,6 @@
   <a href="#how-to-use">How To Use</a> •  
   <a href="#endpoints">Endpoints</a> •
   <a href="#data-shapes">Data Shapes</a> •
-  <a href="#data-shapes">Environment Variables</a> •
   <a href="#credits">Credits</a> •
 </p>
 
@@ -148,23 +147,6 @@ $ psql -u <username> -p <port> -D <database_name>
 -   order_id: number
 -   product_id: number
 -   quantity: number
-
-## Environment Variables
-
--   PORT=5000
--   POSTGRES_HOST=127.0.0.1
--   POSTGRES_DB=store_front
--   POSTGRES_DB_TEST=store_front_test
--   POSTGRES_USER=test_user
--   POSTGRES_PASSWORD=password123
--   POSTGRES_PORT=5432
-
-> Note that a database port variable is not used in the project but i mentioned it as an environment variable to show that it's a possibility
-
--   ENV=dev
--   TOKEN_SECRET=secret
--   SALT_ROUNDS=10
--   PEPPER=BCRYPT_PASSWORD_PEPPER
 
 ## Credits
 

@@ -12,5 +12,9 @@
         "database": { "ENV": "POSTGRES_DB_TEST" },
         "user": { "ENV": "POSTGRES_USER" },
         "password": { "ENV": "POSTGRES_PASSWORD" }
+    },
+    "production": {
+        "driver": "pg",
+        "connectionString": { "ENV": "POSTGRES_CONN_STRING" }
     }
 }
