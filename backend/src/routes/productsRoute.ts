@@ -5,7 +5,7 @@ import { verifyToken } from '../middlewares/verifyToken';
 const productsRoute = express.Router();
 
 productsRoute.get('/', index);
-productsRoute.get('/:id', show);
+// productsRoute.get('/:id', show);
 productsRoute.post('/', verifyToken, create);
 
 export default productsRoute;
