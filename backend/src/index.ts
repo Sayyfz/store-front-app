@@ -14,9 +14,9 @@ app.use('/products', productsRoute);
 app.use('/orders', ordersRoute);
 app.use('/services', dashboardRoutes);
 
-app.get('/', function (req: Request, res: Response) {
-    res.send('Welcome, you can check for the endpoints in the README.md file');
-});
+// app.get('/', function (req: Request, res: Response) {
+//     res.send('Welcome, you can check for the endpoints in the README.md file');
+// });
 
 app.listen(port, function () {
     console.log(`Listening on port ${port}`);
