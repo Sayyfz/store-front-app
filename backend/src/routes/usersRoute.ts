@@ -9,5 +9,3 @@ usersRoute.get('/:id', verifyToken, show);
 usersRoute.post('/authenticate', authenticate);
 
 export default usersRoute;
-
-///

@@ -12,4 +12,3 @@ usersRoute.post('/', usersController_1.create);
 usersRoute.get('/:id', verifyToken_1.verifyToken, usersController_1.show);
 usersRoute.post('/authenticate', usersController_1.authenticate);
 exports.default = usersRoute;
-///
