@@ -2,13 +2,13 @@
     "name": "storefront_backend",
     "version": "0.1.0",
     "description": "",
-    "main": "api/index",
+    "main": "src/index.ts",
     "scripts": {
-        "start": "nodemon -r dotenv/config api/index.ts",
+        "start": "nodemon -r dotenv/config src/index.ts",
         "build": "npx tsc",
-        "prod": "nodemon -r dotenv/config ./dist/api/index.js",
+        "prod": "nodemon -r dotenv/config api/index.js",
         "migrate-up:prod": "set ENV=production&& db-migrate reset -e production && db-migrate up -e production",
-        "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/index.js\"",
+        "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./api/index.js\"",
         "test": "set ENV=test&& db-migrate reset -e test &&  db-migrate up -e test && jasmine-ts -r dotenv/config",
         "tsc": "tsc"
     },
