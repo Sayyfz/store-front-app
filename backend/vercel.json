@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
         {
-            "src": "backend/src/**/*.ts",
+            "src": "src/**/*.ts",
             "use": "@vercel/node",
             "config": {
                 "maxLambdaSize": "15mb"
@@ -12,7 +12,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "backend/dist/index.js"
+            "dest": "dist/index.js"
         }
     ]
 }
