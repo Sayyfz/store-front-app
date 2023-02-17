@@ -3,11 +3,19 @@
     "builds": [
         {
             "src": "src/**/*.ts",
-            "use": "vercel/node",
+            "use": "@now/node12",
+            "config": {
+                "maxLambdaSize": "15mb"
+            }
+        },
+        {
+            "src": "dist/server.js",
+            "use": "vercel@1.0.0",
             "config": {
                 "maxLambdaSize": "15mb",
-                "buildCommand": "npm run build",
-                "outputDirectory": "dist"
+                "cmd": "node",
+                "args": "dist/server.js",
+                "ignoreBuildStep": true
             }
         }
     ],
