@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import usersRoute from './routes/usersRoute';
-import productsRoute from './routes/productsRoute';
-import ordersRoute from './routes/ordersRoute';
-import dashboardRoutes from './routes/dashboardRoute';
+import usersRoute from '../src/routes/usersRoute';
+import productsRoute from '../src/routes/productsRoute';
+import ordersRoute from '../src/routes/ordersRoute';
+import dashboardRoutes from '../src/routes/dashboardRoute';
 
 const app: express.Application = express();
 const port = process.env.PORT || 5000;
