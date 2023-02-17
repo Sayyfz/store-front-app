@@ -6,6 +6,7 @@
     "scripts": {
         "start": "nodemon -r dotenv/config api/index.ts",
         "build": "npx tsc",
+        "prod": "nodemon -r dotenv/config ./dist/api/index.js",
         "migrate-up:prod": "set ENV=production&& db-migrate reset -e production && db-migrate up -e production",
         "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/index.js\"",
         "test": "set ENV=test&& db-migrate reset -e test &&  db-migrate up -e test && jasmine-ts -r dotenv/config",
