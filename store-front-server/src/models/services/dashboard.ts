@@ -1,5 +1,5 @@
 import client from '../../database';
-import { Order } from '../order';
+import { Order } from '../OrderModel';
 import { Product } from '../product';
 
 export class DatabaseQueries {

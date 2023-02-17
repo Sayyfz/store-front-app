@@ -4,7 +4,7 @@
     "description": "",
     "main": "src/index.ts",
     "scripts": {
-        "dev": "nodemon -r dotenv/config src/index.ts",
+        "dev": "set ENV=dev&& nodemon -r dotenv/config src/index.ts",
         "build": "npx tsc",
         "start": "nodemon -r dotenv/config dist/index",
         "migrate-up:prod": "set ENV=production&& db-migrate reset -e production && db-migrate up -e production",

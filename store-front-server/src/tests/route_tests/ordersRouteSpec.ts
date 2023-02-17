@@ -1,9 +1,9 @@
 import fetcher from '../indexSpec';
 import supertest from 'supertest';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { User } from '../../models/user';
+import { User } from '../../models/UserModel';
 import { Product } from '../../models/product';
-import { Order } from '../../models/order';
+import { Order } from '../../models/OrderModel';
 
 describe('ORDERS ROUTE SPEC', () => {
     let token: string;

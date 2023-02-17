@@ -1,7 +1,7 @@
 import fetcher from '../indexSpec';
 import bcrypt from 'bcrypt';
 import supertest from 'supertest';
-import { User } from '../../models/user';
+import { User } from '../../models/UserModel';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 describe('USERS ROUTE SPEC', () => {

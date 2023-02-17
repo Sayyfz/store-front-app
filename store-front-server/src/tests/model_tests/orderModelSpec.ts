@@ -1,6 +1,6 @@
-import { Order, OrderStore } from '../../models/order';
+import { Order, OrderStore } from '../../models/OrderModel';
 import { Product, ProductStore } from '../../models/product';
-import { User, UserStore } from '../../models/user';
+import { User, UserStore } from '../../models/UserModel';
 
 const userStore = new UserStore();
 const productStore = new ProductStore();

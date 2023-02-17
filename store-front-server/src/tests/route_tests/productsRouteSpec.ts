@@ -1,7 +1,7 @@
 import fetcher from '../indexSpec';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import supertest from 'supertest';
-import { User } from '../../models/user';
+import { User } from '../../models/UserModel';
 import { Product } from '../../models/product';
 
 describe('PRODUCTS ROUTE SPEC', () => {

@@ -1,7 +1,7 @@
-import { Order, OrderStore } from '../../models/order';
+import { Order, OrderStore } from '../../models/OrderModel';
 import { Product, ProductStore } from '../../models/product';
 import { DatabaseQueries } from '../../models/services/dashboard';
-import { User, UserStore } from '../../models/user';
+import { User, UserStore } from '../../models/UserModel';
 
 const dashboard = new DatabaseQueries();
 const productStore = new ProductStore();

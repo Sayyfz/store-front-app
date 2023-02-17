@@ -1,7 +1,9 @@
 CREATE TABLE order_products(
     id SERIAL PRIMARY KEY, 
-    order_id bigint REFERENCES orders(id) NOT NULL, 
-    product_id bigint REFERENCES products(id) NOT NULL,
+    order_id BIGINT,
+    product_id BIGINT,
     quantity integer NOT NULL,
+    CONSTRAINT order_products_order_id FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    CONSTRAINT order_products_product_id FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
     UNIQUE(order_id, product_id)
 );
