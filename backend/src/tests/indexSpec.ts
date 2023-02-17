@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import request from 'supertest';
-import app from '../server';
+import app from '../index';
 const fetcher = request(app);
 
 describe('MAIN SPEC', () => {
