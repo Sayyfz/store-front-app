@@ -44,7 +44,7 @@ class OrdersController {
             const deletedOrder = await this.repository.delete(req.params.id);
             return res.status(200).json(deletedOrder);
         } catch (err) {
-            return res.status(400).json(err);
+            return res.status(400).json((err as Error).message);
         }
     };
 
@@ -58,7 +58,7 @@ class OrdersController {
             const updatedOrder = await this.repository.update(req.params.id, order);
             return res.status(200).json(updatedOrder);
         } catch (err) {
-            return res.status(400).json(err);
+            return res.status(400).json((err as Error).message);
         }
     };
 

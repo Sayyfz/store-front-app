@@ -1,11 +1,13 @@
 import express from 'express';
-import { create, index, show } from '../controllers/productsController';
+import Controller from '../controllers/ProductController';
 import { verifyToken } from '../middlewares/verifyToken';
 
 const productsRoute = express.Router();
 
-productsRoute.get('/', index);
-productsRoute.get('/:id', show);
-productsRoute.post('/', verifyToken, create);
+productsRoute.get('/', Controller.index);
+productsRoute.get('/:id', Controller.show);
+productsRoute.post('/', verifyToken, Controller.create);
+productsRoute.delete('/:id', verifyToken, Controller.delete);
+productsRoute.patch('/:id', verifyToken, Controller.update);
 
 export default productsRoute;

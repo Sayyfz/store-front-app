@@ -66,8 +66,13 @@ export class OrderRepository implements IBaseRepository<Order> {
 
     async update(id: string, newOrder: Order): Promise<Order> {
         const conn = await client.connect();
+
         try {
-            const sql = 'UPDATE orders SET user_id=($1), age=($2) WHERE id=($3) RETURNING *';
+            const checkUsersql = 'SELECT * FROM users WHERE id=($1)';
+            const checkUserResult = await conn.query(checkUsersql, [newOrder.user_id]);
+            throwErrorOnNotFound(checkUserResult, 'user');
+
+            const sql = 'UPDATE orders SET user_id=($1), status=($2) WHERE id=($3) RETURNING *';
             const result = await conn.query(sql, [newOrder.user_id, newOrder.status, id]);
             throwErrorOnNotFound(result, 'order');
 

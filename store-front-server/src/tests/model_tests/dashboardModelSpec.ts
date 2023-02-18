@@ -1,6 +1,6 @@
 import { Order, OrderStore } from '../../models/OrderModel';
-import { Product, ProductStore } from '../../models/product';
-import { DatabaseQueries } from '../../models/services/dashboard';
+import { Product, ProductStore } from '../../models/ProductModel';
+import { DatabaseQueries } from '../../repositories/DashboardRepository';
 import { User, UserStore } from '../../models/UserModel';
 
 const dashboard = new DatabaseQueries();
