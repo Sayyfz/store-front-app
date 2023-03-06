@@ -54,7 +54,7 @@ describe('PRODUCTS ROUTE SPEC', () => {
             .send({ name: 'black shoes', price: 80, category: 'shoes' })
             .set('Authorization', token)
             .expect('Content-Type', /json/)
-            .expect(200)
+            .expect(201)
             .end((err, res: supertest.Response) => {
                 if (err) console.log(err);
                 testProduct = res.body;

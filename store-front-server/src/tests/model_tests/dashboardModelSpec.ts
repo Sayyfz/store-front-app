@@ -1,18 +1,16 @@
-import { Order, OrderStore } from '../../models/OrderModel';
-import { Product, ProductStore } from '../../models/ProductModel';
-import { DatabaseQueries } from '../../repositories/DashboardRepository';
-import { User, UserStore } from '../../models/UserModel';
-
-const dashboard = new DatabaseQueries();
-const productStore = new ProductStore();
-const orderStore = new OrderStore();
-const userStore = new UserStore();
+import { Order } from '../../models/OrderModel';
+import { Product } from '../../models/ProductModel';
+import DashboardRepository, { DatabaseQueries } from '../../repositories/DashboardRepository';
+import { User } from '../../models/UserModel';
+import OrderRepository from '../../repositories/OrderRepository';
+import ProductRepository from '../../repositories/ProductRepository';
+import UserRepository from '../../repositories/UserRepository';
 
 describe('DASHBOARD MODEL SPEC', () => {
     let user: User;
     beforeAll(async () => {
         try {
-            user = await userStore.create({
+            user = await UserRepository.create({
                 firstName: 'user',
                 lastName: 'model',
                 username: 'dashboard model tester',
@@ -23,7 +21,7 @@ describe('DASHBOARD MODEL SPEC', () => {
         }
 
         try {
-            await productStore.create({
+            await ProductRepository.create({
                 name: 'Yellow Shoes',
                 price: 80,
                 category: 'shoes',
@@ -33,7 +31,7 @@ describe('DASHBOARD MODEL SPEC', () => {
         }
 
         try {
-            await productStore.create({
+            await ProductRepository.create({
                 name: 'Hp Laptop',
                 price: 80,
                 category: 'tech',
@@ -43,8 +41,8 @@ describe('DASHBOARD MODEL SPEC', () => {
         }
 
         try {
-            await orderStore.create({
-                user_id: user.id as unknown as number,
+            await OrderRepository.create({
+                user_id: user.id?.toString() || '',
                 status: 'active',
             });
         } catch (err) {
@@ -52,8 +50,8 @@ describe('DASHBOARD MODEL SPEC', () => {
         }
 
         try {
-            await orderStore.create({
-                user_id: user.id as unknown as number,
+            await OrderRepository.create({
+                user_id: user.id?.toString() || '',
                 status: 'complete',
             });
         } catch (err) {
@@ -62,7 +60,7 @@ describe('DASHBOARD MODEL SPEC', () => {
     });
 
     it('Should show a list of completed orders by user', async () => {
-        const orders: Order[] = await dashboard.completed_orders_by_user(
+        const orders: Order[] = await DashboardRepository.completed_orders_by_user(
             user.id as unknown as number,
         );
 
@@ -73,7 +71,7 @@ describe('DASHBOARD MODEL SPEC', () => {
     });
 
     it('Should show a list of active orders by user', async () => {
-        const orders: Order[] = await dashboard.current_orders_by_user(
+        const orders: Order[] = await DashboardRepository.current_orders_by_user(
             user.id as unknown as number,
         );
 
@@ -84,7 +82,7 @@ describe('DASHBOARD MODEL SPEC', () => {
     });
 
     it('Should show the created product info successfully', async () => {
-        const products: Product[] = await dashboard.products_by_category('shoes');
+        const products: Product[] = await DashboardRepository.products_by_category('shoes');
         for (const p of products) {
             expect(p.category).toEqual('shoes');
         }

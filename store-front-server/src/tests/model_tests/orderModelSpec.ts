@@ -1,10 +1,9 @@
-import { Order, OrderStore } from '../../models/OrderModel';
-import { Product, ProductStore } from '../../models/ProductModel';
-import { User, UserStore } from '../../models/UserModel';
-
-const userStore = new UserStore();
-const productStore = new ProductStore();
-const store = new OrderStore();
+import { Order } from '../../models/OrderModel';
+import { Product } from '../../models/ProductModel';
+import { User } from '../../models/UserModel';
+import OrderRepo from '../../repositories/OrderRepository';
+import ProductRepo from '../../repositories/ProductRepository';
+import UserRepo from '../../repositories/UserRepository';
 
 describe('ORDER MODEL SPEC', () => {
     let order: Order;
@@ -13,7 +12,7 @@ describe('ORDER MODEL SPEC', () => {
     let product: Product;
     beforeAll(async () => {
         try {
-            user = await userStore.create({
+            user = await UserRepo.create({
                 firstName: 'user',
                 lastName: 'model',
                 username: 'order model tester',
@@ -24,7 +23,7 @@ describe('ORDER MODEL SPEC', () => {
         }
 
         try {
-            product = await productStore.create({
+            product = await ProductRepo.create({
                 name: 'Purple Shoes',
                 price: 80,
                 category: 'shoes',
@@ -34,8 +33,8 @@ describe('ORDER MODEL SPEC', () => {
         }
 
         try {
-            order = await store.create({
-                user_id: user.id as unknown as number,
+            order = await OrderRepo.create({
+                user_id: user.id?.toString() || '',
                 status: 'active',
             });
         } catch (err) {
@@ -43,8 +42,8 @@ describe('ORDER MODEL SPEC', () => {
         }
 
         try {
-            completedOrder = await store.create({
-                user_id: user.id as unknown as number,
+            completedOrder = await OrderRepo.create({
+                user_id: user?.id?.toString() || '',
                 status: 'complete',
             });
         } catch (err) {
@@ -56,37 +55,37 @@ describe('ORDER MODEL SPEC', () => {
     // since subsequent tests will never pass unless OrderStore.create creates an order as expected
 
     it('Should return list of orders', async () => {
-        const orders: Order[] = await store.index();
+        const orders: Order[] = await OrderRepo.index();
         expect(orders.length).toBeTruthy;
         expect(orders.length).toBeGreaterThan(0);
     });
 
     it('Should show the created order info successfully', async () => {
-        const o: Order = await store.show(order.id as unknown as number);
+        const o: Order = await OrderRepo.show(order.id?.toString() || '');
         expect(o).toEqual(o);
     });
 
     it('addProduct should add a product to the specified order and return the order & product ids', async () => {
-        const p = await store.addProduct(
+        const p = await OrderRepo.addProduct(
             9,
-            order.id as unknown as number,
-            product.id as unknown as number,
+            order.id?.toString() || '',
+            product.id?.toString() || '',
         );
         expect(p.quantity).toEqual(9);
-        expect(p.order_id).toEqual(order.id as unknown as number);
-        expect(p.product_id).toEqual(product.id as unknown as number);
+        expect(p.order_id).toEqual(order.id?.toString() || '');
+        expect(p.product_id).toEqual(product.id?.toString() || '');
     });
 
     it('addProduct to a complete order should throw an error', async () => {
         try {
-            await store.addProduct(
+            await OrderRepo.addProduct(
                 9,
-                completedOrder.id as unknown as number,
-                product.id as unknown as number,
+                completedOrder.id?.toString() || '',
+                product.id?.toString() || '',
             );
         } catch (err) {
             expect((err as Error).message).toEqual(
-                `Cannot add product ${product.id} to order ${completedOrder.id} Error: Cannot add product to a completed order`,
+                `Cannot add product ${product.id} to order ${completedOrder.id} since it is a completed order`,
             );
         }
     });

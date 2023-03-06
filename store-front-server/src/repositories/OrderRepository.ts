@@ -1,7 +1,7 @@
 import client from '../database';
 import IBaseRepository from './interfaces/IBaseRepository';
 import { Order } from '../models/OrderModel';
-import { throwErrorOnNotFound } from '../utils/NotFoundHandler';
+import { throwBadRequestError, throwErrorOnNotFound } from '../utils/ThrowError';
 
 export class OrderRepository implements IBaseRepository<Order> {
     async index(): Promise<Order[]> {
@@ -12,8 +12,6 @@ export class OrderRepository implements IBaseRepository<Order> {
             throwErrorOnNotFound(result, 'orders');
 
             return result.rows;
-        } catch (err) {
-            throw new Error(`Cannot preview orders: ${err}`);
         } finally {
             conn.release();
         }
@@ -24,11 +22,8 @@ export class OrderRepository implements IBaseRepository<Order> {
         try {
             const sql = 'SELECT * FROM orders WHERE id=($1)';
             const result = await conn.query(sql, [id]);
-            throwErrorOnNotFound(result, 'order');
-
+            throwErrorOnNotFound(result, 'order', `Cannot find order with id ${id}`);
             return result.rows[0];
-        } catch (err) {
-            throw new Error(`Cannot preview order of id ${id}: ${err}`);
         } finally {
             conn.release();
         }
@@ -42,8 +37,6 @@ export class OrderRepository implements IBaseRepository<Order> {
             throwErrorOnNotFound(result, 'order');
 
             return result.rows[0];
-        } catch (err) {
-            throw new Error(`Cannot create order ${err}`);
         } finally {
             conn.release();
         }
@@ -54,11 +47,9 @@ export class OrderRepository implements IBaseRepository<Order> {
         try {
             const sql = 'DELETE FROM orders WHERE id=($1) RETURNING *';
             const result = await conn.query(sql, [id]);
-            throwErrorOnNotFound(result, 'order');
+            throwErrorOnNotFound(result, 'order', `Cannot find order with id ${id}`);
 
             return result.rows[0];
-        } catch (err) {
-            throw new Error(`Cannot delete order ${err}`);
         } finally {
             conn.release();
         }
@@ -77,8 +68,6 @@ export class OrderRepository implements IBaseRepository<Order> {
             throwErrorOnNotFound(result, 'order');
 
             return result.rows[0];
-        } catch (err) {
-            throw new Error(`Cannot update order ${err}`);
         } finally {
             conn.release();
         }
@@ -96,7 +85,9 @@ export class OrderRepository implements IBaseRepository<Order> {
             throwErrorOnNotFound(checkResult, 'order');
 
             if (checkResult.rows[0].status === 'complete') {
-                throw 'Error: Cannot add product to a completed order';
+                throwBadRequestError(
+                    `Cannot add product ${product_id} to order ${order_id} since it is a completed order`,
+                );
             }
 
             const sql =
@@ -104,8 +95,6 @@ export class OrderRepository implements IBaseRepository<Order> {
             const result = await conn.query(sql, [order_id, product_id, quantity]);
 
             return result.rows[0];
-        } catch (err) {
-            throw new Error(`Cannot add product ${product_id} to order ${order_id} ${err}`);
         } finally {
             conn.release();
         }

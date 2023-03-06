@@ -9,7 +9,7 @@
         "start": "nodemon -r dotenv/config dist/index",
         "migrate-up:prod": "set ENV=production&& db-migrate reset -e production && db-migrate up -e production",
         "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./api/index.js\"",
-        "test": "set ENV=test&& db-migrate reset -e test &&  db-migrate up -e test && jasmine-ts -r dotenv/config",
+        "test": "set ENV=test&& db-migrate reset -e test && db-migrate up -e test && jasmine-ts -r dotenv/config",
         "tsc": "tsc"
     },
     "license": "ISC",
@@ -20,6 +20,7 @@
         "db-migrate": "^0.11.13",
         "db-migrate-pg": "^1.2.2",
         "express": "^4.17.1",
+        "express-async-errors": "^3.1.1",
         "jsonwebtoken": "^9.0.0",
         "pg": "^8.5.1"
     },

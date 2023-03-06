@@ -1,6 +1,6 @@
 import client from '../database';
 import { Product } from '../models/ProductModel';
-import { throwErrorOnNotFound } from '../utils/NotFoundHandler';
+import { throwErrorOnNotFound } from '../utils/ThrowError';
 import IBaseRepository from './interfaces/IBaseRepository';
 
 export class ProductRepository implements IBaseRepository<Product> {
@@ -12,8 +12,6 @@ export class ProductRepository implements IBaseRepository<Product> {
             throwErrorOnNotFound(result, 'products');
 
             return result.rows;
-        } catch (err) {
-            throw new Error(`Cannot preview products: ${err}`);
         } finally {
             conn.release();
         }
@@ -24,11 +22,9 @@ export class ProductRepository implements IBaseRepository<Product> {
         try {
             const sql = 'SELECT * FROM products WHERE id=($1)';
             const result = await conn.query(sql, [id]);
-            throwErrorOnNotFound(result, 'product');
+            throwErrorOnNotFound(result, 'product', `Cannot find product with id ${id}`);
 
             return result.rows[0];
-        } catch (err) {
-            throw new Error(`Cannot preview product with the id ${id}: ${err}`);
         } finally {
             conn.release();
         }
@@ -43,8 +39,6 @@ export class ProductRepository implements IBaseRepository<Product> {
             throwErrorOnNotFound(result, 'product');
 
             return result.rows[0];
-        } catch (err) {
-            throw new Error(`Cannot create product: ${err}`);
         } finally {
             conn.release();
         }
@@ -55,11 +49,9 @@ export class ProductRepository implements IBaseRepository<Product> {
         try {
             const sql = 'DELETE FROM products WHERE id=($1) RETURNING *';
             const result = await conn.query(sql, [id]);
-            throwErrorOnNotFound(result, 'product');
+            throwErrorOnNotFound(result, 'product', `Cannot find product with id ${id}`);
 
             return result.rows[0];
-        } catch (err) {
-            throw new Error(`Cannot delete product with the id ${id}: ${err}`);
         } finally {
             conn.release();
         }
@@ -79,8 +71,6 @@ export class ProductRepository implements IBaseRepository<Product> {
             throwErrorOnNotFound(result, 'product');
 
             return result.rows[0];
-        } catch (err) {
-            throw new Error(`Cannot update product with the id ${id}: ${err}`);
         } finally {
             conn.release();
         }

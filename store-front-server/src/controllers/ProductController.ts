@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import ProductRepo, { ProductRepository } from '../repositories/ProductRepository';
+import InfoError from '../types/infoError';
 
 class ProductController {
     repository: ProductRepository;
@@ -13,7 +14,8 @@ class ProductController {
             const products = await this.repository.index();
             return res.status(200).json(products);
         } catch (err) {
-            return res.status(400).json((err as Error).message);
+            const e: InfoError = err as InfoError;
+            return res.status(e.status).json(e.message);
         }
     };
 
@@ -22,7 +24,8 @@ class ProductController {
             const product = await this.repository.show(req.params.id);
             return res.status(200).json(product);
         } catch (err) {
-            return res.status(400).json((err as Error).message);
+            const e: InfoError = err as InfoError;
+            return res.status(e.status).json(e.message);
         }
     };
 
@@ -36,7 +39,8 @@ class ProductController {
             const newProduct = await this.repository.create(product);
             return res.status(201).json(newProduct);
         } catch (err) {
-            return res.status(400).json((err as Error).message);
+            const e: InfoError = err as InfoError;
+            return res.status(e.status).json(e.message);
         }
     };
 
@@ -45,7 +49,8 @@ class ProductController {
             const product = await this.repository.delete(req.params.id);
             return res.status(200).json(product);
         } catch (err) {
-            return res.status(400).json((err as Error).message);
+            const e: InfoError = err as InfoError;
+            return res.status(e.status).json(e.message);
         }
     };
 
@@ -59,7 +64,8 @@ class ProductController {
             const newProduct = await this.repository.update(req.params.id, product);
             return res.status(200).json(newProduct);
         } catch (err) {
-            return res.status(400).json((err as Error).message);
+            const e: InfoError = err as InfoError;
+            return res.status(e.status).json(e.message);
         }
     };
 }

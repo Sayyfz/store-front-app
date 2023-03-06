@@ -52,7 +52,7 @@ describe('ORDERS ROUTE SPEC', () => {
             .expect('Content-Type', /json/)
             .end((err, res: supertest.Response) => {
                 if (err) console.log(err);
-                expect(res.body.user_id).toEqual(user.id);
+                expect(res.body.user_id).toEqual(user.id?.toString());
                 expect(res.body.status).toEqual('active');
                 testShowOrder = res.body;
                 done();
@@ -86,8 +86,8 @@ describe('ORDERS ROUTE SPEC', () => {
             .expect(200)
             .end((err, res: supertest.Response) => {
                 if (err) console.log(err);
-                expect(res.body.order_id).toEqual(testShowOrder.id);
-                expect(res.body.product_id).toEqual(product.id);
+                expect(res.body.order_id).toEqual(testShowOrder.id?.toString());
+                expect(res.body.product_id).toEqual(product.id?.toString());
                 expect(res.body.quantity).toEqual(14);
                 done();
             });
