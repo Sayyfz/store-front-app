@@ -1,0 +1,51 @@
+@import './variables';
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+}
+
+.btn-transition {
+    transition: 0.3s ease;
+}
+
+.outline-accent {
+    border-color: $clr-accent;
+    @extend .btn-transition;
+    &:hover {
+        @extend .bg-accent;
+    }
+}
+
+.outline-primary {
+    border-color: $clr-primary;
+    @extend .btn-transition;
+    &:hover {
+        @extend .bg-primary;
+    }
+}
+
+.outline-secondary {
+    border-color: $clr-secondary;
+    @extend .btn-transition;
+    &:hover {
+        @extend .bg-secondary;
+    }
+}
+
+.bg-accent {
+    background-color: $clr-accent;
+}
+
+.bg-primary {
+    background-color: $clr-primary;
+}
+
+.bg-secondary {
+    background-color: $clr-secondary;
+}

@@ -1,0 +1,27 @@
+@import './variables';
+
+.coolSearch {
+    width: 100%;
+    max-width: 220px;
+    height: 45px;
+    padding: 12px 12px;
+    border-radius: 12px;
+    border: 1.5px solid $clr-accent;
+    outline: none;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+}
+
+.coolSearch:hover {
+    border: 2px solid $clr-accent-hover;
+    box-shadow: 0px 0px 20px -17px;
+}
+
+.coolSearch:active {
+    transform: scale(0.95);
+}
+
+.coolSearch:focus {
+    border: 2px solid $clr-accent;
+}
