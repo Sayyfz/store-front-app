@@ -1,5 +1,6 @@
 import { IHttpClient } from '../types/IHttpClient';
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { CustomResponse } from '../types/CustomResponse';
 
 export class AxiosClient implements IHttpClient {
     private axiosInstace: AxiosInstance;
@@ -12,23 +13,38 @@ export class AxiosClient implements IHttpClient {
         this.axiosInstace = axios.create(options ?? {});
     }
 
-    async get(url: string, id?: number, options?: AxiosRequestConfig): Promise<unknown> {
+    async get(url: string, id?: number, options?: AxiosRequestConfig): Promise<CustomResponse> {
         const res = await this.axiosInstace.get(`${url}${id ? `/${id}` : ''}`, options);
-        return res.data;
+        return this.reformatResponse(res);
     }
 
-    async post(url: string, body: unknown, options?: AxiosRequestConfig): Promise<unknown> {
+    async post(url: string, body: unknown, options?: AxiosRequestConfig): Promise<CustomResponse> {
         const res = await this.axiosInstace.post(url, body, options);
-        return res.data;
+        return this.reformatResponse(res);
     }
 
-    async delete(url: string, id: number, options?: AxiosRequestConfig): Promise<unknown> {
+    async delete(url: string, id: number, options?: AxiosRequestConfig): Promise<CustomResponse> {
         const res = await this.axiosInstace.delete(`${url}/${id}`, options);
-        return res.data;
+        return this.reformatResponse(res);
     }
 
-    async patch(url: string, body: unknown, options?: AxiosRequestConfig): Promise<unknown> {
-        const res = await this.axiosInstace.patch(url, options);
-        return res.data;
+    async patch(
+        url: string,
+        id: number,
+        body: unknown,
+        options?: AxiosRequestConfig,
+    ): Promise<CustomResponse> {
+        const res = await this.axiosInstace.patch(`${url}/${id}`, options);
+        return this.reformatResponse(res);
+    }
+
+    private reformatResponse(res: AxiosResponse<any, any>) {
+        return {
+            ...res,
+            data: res.data,
+            status: res.status,
+            headers: res.headers,
+            config: res.config,
+        };
     }
 }
