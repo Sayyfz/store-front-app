@@ -9,13 +9,13 @@
         "allowSyntheticDefaultImports": true,
         "strict": true,
         "forceConsistentCasingInFileNames": true,
-        "module": "ESNext",
+        "module": "ES2020",
         "moduleResolution": "Node",
         "resolveJsonModule": true,
-        "isolatedModules": true,
+        "isolatedModules": false,
         "noEmit": true,
         "jsx": "react-jsx"
     },
-    "include": ["src", "src/**/*.scss"],
+    "include": ["src", "src/**/*.scss", "node_modules/@types/warning/index.d.ts"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }

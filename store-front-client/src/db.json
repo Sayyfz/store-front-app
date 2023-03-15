@@ -1,0 +1,32 @@
+{
+    "users": [
+        { "id": 1, "name": "Alice", "email": "alice@example.com" },
+        { "id": 2, "name": "Bob", "email": "bob@example.com" },
+        { "id": 3, "name": "Charlie", "email": "charlie@example.com" }
+    ],
+    "posts": [
+        { "id": 1, "title": "json-server", "authorId": 1 },
+        { "id": 2, "title": "Introduction to TypeScript", "authorId": 2 },
+        { "id": 3, "title": "React Hooks: useState and useEffect", "authorId": 3 },
+        { "id": 4, "title": "Node.js: Getting Started", "authorId": 1 }
+    ],
+    "comments": [
+        { "id": 1, "body": "Great post!", "postId": 1, "authorId": 2 },
+        { "id": 2, "body": "Thanks for sharing!", "postId": 1, "authorId": 3 },
+        { "id": 3, "body": "I learned a lot from this article.", "postId": 2, "authorId": 1 },
+        { "id": 4, "body": "I have a question about this code.", "postId": 2, "authorId": 3 },
+        {
+            "id": 5,
+            "body": "Can you explain this concept in more detail?",
+            "postId": 3,
+            "authorId": 2
+        },
+        { "id": 6, "body": "I found a bug in this code snippet.", "postId": 3, "authorId": 1 },
+        { "id": 7, "body": "This tutorial was very helpful.", "postId": 4, "authorId": 2 }
+    ],
+    "profiles": [
+        { "id": 1, "username": "alice123", "userId": 1 },
+        { "id": 2, "username": "bobby", "userId": 2 },
+        { "id": 3, "username": "charlieee", "userId": 3 }
+    ]
+}

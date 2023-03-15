@@ -6,8 +6,20 @@ import Navbar from 'react-bootstrap/Navbar';
 import CoolBtn from './CoolBtn';
 import CoolSearch from './CoolSearch';
 import '../styles/nav.scss';
+import React, { useState } from 'react';
 
 const NavbarComp = () => {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+    };
+
+    const submitForm = (e: React.MouseEvent) => {
+        e.preventDefault();
+
+        setSearchQuery('');
+    };
     return (
         <Navbar className='m-navbar' bg='light' expand='md'>
             <Container fluid='lg' className='d-flex gap-3'>
@@ -27,15 +39,12 @@ const NavbarComp = () => {
                         <CoolBtn title='Login' />
                     </div>
                     <Form className='d-flex'>
-                        <CoolSearch title='Search Our Products' />
-                        {/* <Form.Control
-                            type='search'
-                            placeholder='Search'
-                            className='me-2'
-                            aria-label='Search'
-                            style={{ width: '300px' }}
-                        /> */}
-                        <Button className='nav-search' variant=''>
+                        <CoolSearch
+                            onChange={onSearchChanged}
+                            value={searchQuery}
+                            title='Search Our Products'
+                        />
+                        <Button onClick={e => submitForm(e)} className='nav-search' variant=''>
                             <img src='/Assets/search-icon.svg' alt='Search' width={32} />
                         </Button>
                     </Form>
