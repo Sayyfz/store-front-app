@@ -3,8 +3,11 @@ import Controller from '../controllers/OrderController';
 import { verifyToken } from '../middlewares/verifyToken';
 import 'express-async-errors';
 import errorHandler from '../middlewares/globalErrorHandler';
+import cors from 'cors';
 
 const ordersRoute = express.Router();
+
+ordersRoute.use(cors());
 
 ordersRoute.get('/', verifyToken, Controller.index);
 ordersRoute.get('/:id', verifyToken, Controller.show);

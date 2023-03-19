@@ -84,6 +84,10 @@ export class OrderRepository implements IBaseRepository<Order> {
             const checkResult = await conn.query(checkSql, [order_id]);
             throwErrorOnNotFound(checkResult, 'order');
 
+            const checkSqlProduct = 'SELECT id FROM products WHERE id=$1';
+            const checkResultProduct = await conn.query(checkSqlProduct, [order_id]);
+            throwErrorOnNotFound(checkResultProduct, 'product');
+
             if (checkResult.rows[0].status === 'complete') {
                 throwBadRequestError(
                     `Cannot add product ${product_id} to order ${order_id} since it is a completed order`,

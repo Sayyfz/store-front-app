@@ -1,3 +1,5 @@
+import { CustomResponse } from './CustomResponse';
+
 export interface IHttpClient {
     init(options?: unknown): void;
 
@@ -5,4 +7,6 @@ export interface IHttpClient {
     post(url: string, body: unknown, options: unknown): Promise<CustomResponse>;
     delete(url: string, id: number, options: unknown): Promise<CustomResponse>;
     patch(url: string, id: number, body: unknown, options: unknown): Promise<CustomResponse>;
+
+    private reformatResponse(res: unknown): CustomResponse;
 }

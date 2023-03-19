@@ -34,11 +34,11 @@ export class AxiosClient implements IHttpClient {
         body: unknown,
         options?: AxiosRequestConfig,
     ): Promise<CustomResponse> {
-        const res = await this.axiosInstace.patch(`${url}/${id}`, options);
+        const res = await this.axiosInstace.patch(`${url}/${id}`, body, options);
         return this.reformatResponse(res);
     }
 
-    private reformatResponse(res: AxiosResponse<any, any>) {
+    reformatResponse(res: AxiosResponse<any, any>) {
         return {
             ...res,
             data: res.data,

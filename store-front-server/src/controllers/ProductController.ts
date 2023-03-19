@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import ProductRepo, { ProductRepository } from '../repositories/ProductRepository';
-import InfoError from '../types/infoError';
+import { checkErrorAndNext } from '../utils/Helpers';
 
 class ProductController {
     repository: ProductRepository;
@@ -9,63 +9,46 @@ class ProductController {
         this.repository = repository;
     }
 
-    index = async (req: Request, res: Response) => {
-        try {
-            const products = await this.repository.index();
-            return res.status(200).json(products);
-        } catch (err) {
-            const e: InfoError = err as InfoError;
-            return res.status(e.status).json(e.message);
-        }
+    index = async (req: Request, res: Response, next: NextFunction) => {
+        const products = await this.repository.index();
+        return res.status(200).json(products);
     };
 
-    show = async (req: Request, res: Response) => {
-        try {
-            const product = await this.repository.show(req.params.id);
-            return res.status(200).json(product);
-        } catch (err) {
-            const e: InfoError = err as InfoError;
-            return res.status(e.status).json(e.message);
-        }
+    show = async (req: Request, res: Response, next: NextFunction) => {
+        const product = await this.repository.show(req.params.id);
+        return res.status(200).json(product);
     };
 
-    create = async (req: Request, res: Response) => {
-        const product = {
-            name: req.body.name,
-            price: req.body.price,
-            category: (req.body.category as string).toLowerCase(),
-        };
+    create = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            const product = {
+                name: req.body.name,
+                price: req.body.price,
+                category: (req.body.category as string).toLowerCase(),
+            };
             const newProduct = await this.repository.create(product);
             return res.status(201).json(newProduct);
-        } catch (err) {
-            const e: InfoError = err as InfoError;
-            return res.status(e.status).json(e.message);
+        } catch (error) {
+            checkErrorAndNext(error as Error, 'Product', next);
         }
     };
 
-    delete = async (req: Request, res: Response) => {
-        try {
-            const product = await this.repository.delete(req.params.id);
-            return res.status(200).json(product);
-        } catch (err) {
-            const e: InfoError = err as InfoError;
-            return res.status(e.status).json(e.message);
-        }
+    delete = async (req: Request, res: Response, next: NextFunction) => {
+        const product = await this.repository.delete(req.params.id);
+        return res.status(200).json(product);
     };
 
-    update = async (req: Request, res: Response) => {
-        const product = {
-            name: req.body.name,
-            price: req.body.price,
-            category: (req.body.category as string).toLowerCase(),
-        };
+    update = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            const product = {
+                name: req.body.name,
+                price: req.body.price,
+                category: (req.body.category as string).toLowerCase(),
+            };
             const newProduct = await this.repository.update(req.params.id, product);
             return res.status(200).json(newProduct);
-        } catch (err) {
-            const e: InfoError = err as InfoError;
-            return res.status(e.status).json(e.message);
+        } catch (error) {
+            checkErrorAndNext(error as Error, 'Product', next);
         }
     };
 }

@@ -54,6 +54,20 @@ describe('ApiService', () => {
             expect(data).toEqual(newPost);
         });
 
+        it('should fail to create a post throw error', async () => {
+            const newPost = {
+                id: testId,
+                title: 'test post',
+                authorId: 1,
+            };
+            try {
+                (await api.post(postsURL, newPost)) as CustomResponse;
+            } catch (err) {
+                expect((err as Error).message).toBeDefined();
+                console.log((err as Error).message);
+            }
+        });
+
         it('should update post successfully', async () => {
             const newPost = {
                 id: testId,
@@ -61,7 +75,7 @@ describe('ApiService', () => {
                 authorId: 1,
             };
             const { data, status } = (await api.patch(postsURL, testId, newPost)) as CustomResponse;
-            // expect(data as Post).toEqual(newPost);
+            expect(data as Post).toEqual(newPost);
             expect(status).toBe(200);
         });
 

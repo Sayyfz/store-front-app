@@ -21,9 +21,9 @@ const NavbarComp = () => {
         setSearchQuery('');
     };
     return (
-        <Navbar className='m-navbar' bg='light' expand='md'>
-            <Container fluid='lg' className='d-flex gap-3'>
-                <h2 role='button' className='cursor-pointer me-3 my-0'>
+        <Navbar className='m-navbar position-fixed' bg='light' expand='md'>
+            <Container fluid='lg' className='d-flex gap-3 position-relative'>
+                <h2 role='button' className='cursor-pointer lh-lg me-3 my-0'>
                     LOGO
                 </h2>
                 <Navbar.Collapse className='me-auto' id='navbarScroll'>
@@ -50,7 +50,7 @@ const NavbarComp = () => {
                     </Form>
                 </Navbar.Collapse>
 
-                <Navbar.Toggle aria-controls='navbarScroll' />
+                <Navbar.Toggle className='hamburger' aria-controls='navbarScroll' />
             </Container>
         </Navbar>
     );
