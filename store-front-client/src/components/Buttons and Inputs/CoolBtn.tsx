@@ -1,4 +1,4 @@
-import '../styles/cool-btn.scss';
+import './cool-btn.scss';
 
 interface CoolBtnProps {
     title: string;

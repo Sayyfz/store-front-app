@@ -1,4 +1,4 @@
-import '../styles/cool-search.scss';
+import './cool-search.scss';
 
 interface CoolSearchProps {
     value: string;

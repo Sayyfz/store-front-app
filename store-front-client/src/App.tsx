@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import './styles/App.scss';
 import { ProductType } from './types/Product';
 import { ResponseError } from './types/ResponseError';
-import Product from './components/Product';
+import ProductList from './components/Products/ProductList';
 
 function App() {
     const dispatch = useAppDispatch();
@@ -16,11 +16,7 @@ function App() {
 
     return (
         <div className='app'>
-            <div>
-                {Array.isArray(items)
-                    ? items.map((item: ProductType) => <Product key={item.id} item={item} />)
-                    : items.errors.map((error, idx) => <p key={idx}>{error.message}</p>)}
-            </div>
+            <ProductList items={items} />
         </div>
     );
 }

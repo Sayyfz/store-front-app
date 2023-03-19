@@ -3,9 +3,9 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import CoolBtn from './CoolBtn';
-import CoolSearch from './CoolSearch';
-import '../styles/nav.scss';
+import CoolBtn from '../Buttons and Inputs/CoolBtn';
+import CoolSearch from '../Buttons and Inputs/CoolSearch';
+import './nav.scss';
 import React, { useState } from 'react';
 
 const NavbarComp = () => {
