@@ -4,11 +4,11 @@ import NotFoundError from './NotFoundError';
 import ValidationError from './ValidationError';
 
 export const throwErrorOnNotFound = (
-    result: QueryResult<any>,
-    entity: string,
+    result?: QueryResult<any>,
+    entity?: string,
     message?: string,
 ): void => {
-    if (!result.rows.length) {
+    if (!result?.rows?.length) {
         const msg = message ?? `Cannot find ${entity}`;
         throw new NotFoundError(msg);
     }
