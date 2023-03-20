@@ -8,7 +8,7 @@ const BadRequestError_1 = __importDefault(require("./BadRequestError"));
 const NotFoundError_1 = __importDefault(require("./NotFoundError"));
 const ValidationError_1 = __importDefault(require("./ValidationError"));
 const throwErrorOnNotFound = (result, entity, message) => {
-    if (!result.rows.length) {
+    if (!result?.rows?.length) {
         const msg = message ?? `Cannot find ${entity}`;
         throw new NotFoundError_1.default(msg);
     }

@@ -10,7 +10,6 @@ class ProductController {
     constructor(repository) {
         this.index = async (req, res, next) => {
             const products = await this.repository.index();
-            console.log(products);
             return res.status(200).json(products);
         };
         this.show = async (req, res, next) => {

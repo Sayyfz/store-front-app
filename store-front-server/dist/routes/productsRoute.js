@@ -5,18 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const ProductController_1 = __importDefault(require("../controllers/ProductController"));
-const globalErrorHandler_1 = __importDefault(require("../middlewares/globalErrorHandler"));
 const verifyToken_1 = require("../middlewares/verifyToken");
 require("express-async-errors");
 const multer_1 = __importDefault(require("../middlewares/multer"));
-const cors_1 = __importDefault(require("cors"));
 const productsRoute = express_1.default.Router();
-productsRoute.use((0, cors_1.default)());
-// productsRoute.use('/images', express.static(productsPath));
 productsRoute.get('/', ProductController_1.default.index);
 productsRoute.get('/:id', ProductController_1.default.show);
 productsRoute.post('/', verifyToken_1.verifyToken, multer_1.default.single('image'), ProductController_1.default.create);
 productsRoute.delete('/:id', verifyToken_1.verifyToken, ProductController_1.default.delete);
 productsRoute.patch('/:id', verifyToken_1.verifyToken, multer_1.default.single('image'), ProductController_1.default.update);
-productsRoute.use(globalErrorHandler_1.default);
 exports.default = productsRoute;

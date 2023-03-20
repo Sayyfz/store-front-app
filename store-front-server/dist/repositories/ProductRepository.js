@@ -4,7 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductRepository = void 0;
+const constants_1 = require("../constants/constants");
 const database_1 = __importDefault(require("../database"));
+const deleteFile_1 = require("../utils/deleteFile");
 const ThrowError_1 = require("../utils/ThrowError");
 class ProductRepository {
     async index() {
@@ -50,6 +52,13 @@ class ProductRepository {
             (0, ThrowError_1.throwErrorOnNotFound)(result, 'product');
             return result.rows[0];
         }
+        catch (error) {
+            if (error.code === '23505') {
+                const imgPath = `${constants_1.productsPath}/${product.img}`;
+                (0, deleteFile_1.deleteFile)(imgPath);
+            }
+            throw error;
+        }
         finally {
             conn.release();
         }
@@ -57,6 +66,10 @@ class ProductRepository {
     async delete(id) {
         const conn = await database_1.default.connect();
         try {
+            const imageSql = 'SELECT img FROM products WHERE id=$1';
+            const imageResult = await conn.query(imageSql, [id]);
+            (0, ThrowError_1.throwErrorOnNotFound)(imageResult, 'Product');
+            (0, deleteFile_1.deleteFile)(`${constants_1.productsPath}/${imageResult.rows[0].img}`);
             const sql = 'DELETE FROM products WHERE id=($1) RETURNING *';
             const result = await conn.query(sql, [id]);
             (0, ThrowError_1.throwErrorOnNotFound)(result, 'product', `Cannot find product with id ${id}`);
@@ -79,6 +92,13 @@ class ProductRepository {
             ]);
             (0, ThrowError_1.throwErrorOnNotFound)(result, 'product');
             return result.rows[0];
+        }
+        catch (error) {
+            if (error.code === '23505') {
+                const imgPath = `${constants_1.productsPath}/${product.img}`;
+                (0, deleteFile_1.deleteFile)(imgPath);
+            }
+            throw error;
         }
         finally {
             conn.release();

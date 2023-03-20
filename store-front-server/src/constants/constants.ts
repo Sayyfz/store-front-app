@@ -1,2 +1,1 @@
-import path from 'path';
-export const productsPath = 'src/public/content';
+export const productsPath = 'public/content';

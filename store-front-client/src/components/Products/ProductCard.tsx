@@ -8,7 +8,7 @@ const ProductCard = ({ item }: ProductProps) => {
     return (
         <div className='card w-100'>
             <div className='card-img'>
-                <img className='' src={`../../../public/content/watches/men1-1.png`} alt='' />
+                <img className='' src={`${import.meta.env.VITE_IMGS_URL}${item.img}`} alt='' />
             </div>
             <div className='card-info'>
                 <p className='text-title'>{item.name} </p>
