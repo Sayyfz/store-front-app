@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
+import { Product } from '../models/ProductModel';
 import ProductRepo, { ProductRepository } from '../repositories/ProductRepository';
 import { checkErrorAndNext } from '../utils/Helpers';
+import { throwValidationError } from '../utils/ThrowError';
 
 class ProductController {
     repository: ProductRepository;
@@ -21,10 +23,14 @@ class ProductController {
 
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const product = {
+            if (!req.file) {
+                throwValidationError('Please upload a product image to proceed');
+            }
+            const product: Product = {
                 name: req.body.name,
                 price: req.body.price,
                 category: (req.body.category as string).toLowerCase(),
+                img: req.file?.filename,
             };
             const newProduct = await this.repository.create(product);
             return res.status(201).json(newProduct);
@@ -40,10 +46,14 @@ class ProductController {
 
     update = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            if (!req.file) {
+                throwValidationError('Please upload a product image to proceed');
+            }
             const product = {
                 name: req.body.name,
                 price: req.body.price,
                 category: (req.body.category as string).toLowerCase(),
+                img: req.file?.filename,
             };
             const newProduct = await this.repository.update(req.params.id, product);
             return res.status(200).json(newProduct);

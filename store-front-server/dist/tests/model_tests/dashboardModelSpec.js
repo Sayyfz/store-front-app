@@ -1,18 +1,17 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const order_1 = require("../../models/order");
-const product_1 = require("../../models/product");
-const dashboard_1 = require("../../models/services/dashboard");
-const user_1 = require("../../models/user");
-const dashboard = new dashboard_1.DatabaseQueries();
-const productStore = new product_1.ProductStore();
-const orderStore = new order_1.OrderStore();
-const userStore = new user_1.UserStore();
+const DashboardRepository_1 = __importDefault(require("../../repositories/DashboardRepository"));
+const OrderRepository_1 = __importDefault(require("../../repositories/OrderRepository"));
+const ProductRepository_1 = __importDefault(require("../../repositories/ProductRepository"));
+const UserRepository_1 = __importDefault(require("../../repositories/UserRepository"));
 describe('DASHBOARD MODEL SPEC', () => {
     let user;
     beforeAll(async () => {
         try {
-            user = await userStore.create({
+            user = await UserRepository_1.default.create({
                 firstName: 'user',
                 lastName: 'model',
                 username: 'dashboard model tester',
@@ -23,7 +22,7 @@ describe('DASHBOARD MODEL SPEC', () => {
             console.log(err);
         }
         try {
-            await productStore.create({
+            await ProductRepository_1.default.create({
                 name: 'Yellow Shoes',
                 price: 80,
                 category: 'shoes',
@@ -33,7 +32,7 @@ describe('DASHBOARD MODEL SPEC', () => {
             console.log(err);
         }
         try {
-            await productStore.create({
+            await ProductRepository_1.default.create({
                 name: 'Hp Laptop',
                 price: 80,
                 category: 'tech',
@@ -43,8 +42,8 @@ describe('DASHBOARD MODEL SPEC', () => {
             console.log(err);
         }
         try {
-            await orderStore.create({
-                user_id: user.id,
+            await OrderRepository_1.default.create({
+                user_id: user.id?.toString() || '',
                 status: 'active',
             });
         }
@@ -52,8 +51,8 @@ describe('DASHBOARD MODEL SPEC', () => {
             console.log(err);
         }
         try {
-            await orderStore.create({
-                user_id: user.id,
+            await OrderRepository_1.default.create({
+                user_id: user.id?.toString() || '',
                 status: 'complete',
             });
         }
@@ -62,21 +61,21 @@ describe('DASHBOARD MODEL SPEC', () => {
         }
     });
     it('Should show a list of completed orders by user', async () => {
-        const orders = await dashboard.completed_orders_by_user(user.id);
+        const orders = await DashboardRepository_1.default.completed_orders_by_user(user.id);
         for (const o of orders) {
             expect(o.status).toEqual('complete');
         }
         expect(orders.length).toBeGreaterThan(0);
     });
     it('Should show a list of active orders by user', async () => {
-        const orders = await dashboard.current_orders_by_user(user.id);
+        const orders = await DashboardRepository_1.default.current_orders_by_user(user.id);
         for (const o of orders) {
             expect(o.status).toEqual('active');
         }
         expect(orders.length).toBeGreaterThan(0);
     });
     it('Should show the created product info successfully', async () => {
-        const products = await dashboard.products_by_category('shoes');
+        const products = await DashboardRepository_1.default.products_by_category('shoes');
         for (const p of products) {
             expect(p.category).toEqual('shoes');
         }

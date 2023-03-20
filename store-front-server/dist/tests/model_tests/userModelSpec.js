@@ -1,13 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const user_1 = require("../../models/user");
-const store = new user_1.UserStore();
+const UserRepository_1 = __importDefault(require("../../repositories/UserRepository"));
 describe('USER MODEL SPEC', () => {
     let user;
     const testPass = 'pass1234';
     beforeAll(async () => {
         try {
-            user = await store.create({
+            user = await UserRepository_1.default.create({
                 firstName: 'user',
                 lastName: 'model',
                 username: 'user model tester',
@@ -21,33 +23,33 @@ describe('USER MODEL SPEC', () => {
     // UserStore.create is considred as a test even though it is not inside a spec
     // since subsequent tests will never pass unless UserStore.create creates a user as expected
     it('Should return list of users', async () => {
-        const users = await store.index();
+        const users = await UserRepository_1.default.index();
         expect(users.length).toBeTruthy;
         expect(users.length).toBeGreaterThan(0);
     });
     it('Should show the created user info successfully', async () => {
-        const u = await store.show(user.id);
+        const u = await UserRepository_1.default.show(user.id?.toString() || '');
         expect(u).toEqual(user);
     });
     it('authenticate method should return the user password successfully after authenticating and not throw an error', async () => {
-        const u = await store.authenticate(user.username, testPass);
+        const u = await UserRepository_1.default.authenticate(user.username, testPass);
         expect(u?.password).toEqual(user.password);
     });
     it("authenticate with an invalid user should throw a user doesn't exist error", async () => {
         const invalidUser = 'sssssss';
         try {
-            await store.authenticate(invalidUser, testPass);
+            await UserRepository_1.default.authenticate(invalidUser, testPass);
         }
         catch (err) {
-            expect(err).toEqual({ err: `username ${invalidUser} doesn't exist`, status: 400 });
+            expect(err.message.includes('Cannot find user')).toBeTrue();
         }
     });
     it('authenticate with an invalid password should throw incorrect password error', async () => {
         try {
-            await store.authenticate(user.username, 'sssssssssss');
+            await UserRepository_1.default.authenticate(user.username, 'sssssssssss');
         }
         catch (err) {
-            expect(err).toEqual({ err: 'Incorrect Password', status: 401 });
+            expect(err).toEqual('Incorrect Password');
         }
     });
 });

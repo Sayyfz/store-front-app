@@ -11,7 +11,13 @@ export class ProductRepository implements IBaseRepository<Product> {
             const result = await conn.query(sql);
             throwErrorOnNotFound(result, 'products');
 
-            return result.rows;
+            const productsWithImageUrls = result.rows.map((product: Product) => {
+                return {
+                    ...product,
+                    img: `/images/${product.img}`,
+                };
+            });
+            return productsWithImageUrls;
         } finally {
             conn.release();
         }
@@ -34,8 +40,13 @@ export class ProductRepository implements IBaseRepository<Product> {
         const conn = await client.connect();
         try {
             const sql =
-                'INSERT INTO products (name, price, category) VALUES ($1, $2, $3) RETURNING *';
-            const result = await conn.query(sql, [product.name, product.price, product.category]);
+                'INSERT INTO products (name, price, category, img) VALUES ($1, $2, $3, $4) RETURNING *';
+            const result = await conn.query(sql, [
+                product.name,
+                product.price,
+                product.category,
+                product.img,
+            ]);
             throwErrorOnNotFound(result, 'product');
 
             return result.rows[0];
@@ -61,11 +72,12 @@ export class ProductRepository implements IBaseRepository<Product> {
         const conn = await client.connect();
         try {
             const sql =
-                'UPDATE products SET name=($1), price=($2), category=($3) WHERE id=($4) RETURNING *';
+                'UPDATE products SET name=($1), price=($2), category=($3), img=($4) WHERE id=($5) RETURNING *';
             const result = await conn.query(sql, [
                 product.name,
                 product.price,
                 product.category,
+                product.img,
                 id,
             ]);
             throwErrorOnNotFound(result, 'product');
