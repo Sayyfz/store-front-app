@@ -30,8 +30,6 @@ const itemSlice = createSlice({
     },
 });
 
-// WHEN WE DISPATCH getItems IN THE COMPONENT, THE ITEMSLICE GETS NOTIFIED AND EXECUTES THE EXTRA REDUCER BECAUSE IT IS LISTENING TO IT
-// extra reducer builder then dispatches pending and then dispatches either fulfilled or rejected with the response as the payload
 export const getItems = createAsyncThunk('item/getItems', async (_, thunkAPI) => {
     try {
         const { data } = await client.get(import.meta.env.VITE_API_URL + endpoint);

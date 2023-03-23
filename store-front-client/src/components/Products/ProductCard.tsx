@@ -12,7 +12,6 @@ const ProductCard = ({ item }: ProductProps) => {
             </div>
             <div className='card-info'>
                 <p className='text-title'>{item.name} </p>
-                {/* <p className='text-body'>{}</p> */}
             </div>
             <div className='card-footer'>
                 <span className='text-title'>{item.price}</span>

@@ -43,21 +43,20 @@ export class ProductRepository implements IBaseRepository<Product> {
         const conn = await client.connect();
         try {
             const sql =
-                'INSERT INTO products (name, price, category, img) VALUES ($1, $2, $3, $4) RETURNING *';
+                'INSERT INTO products (name, price, category_id, img) VALUES ($1, $2, $3, $4) RETURNING *';
             const result = await conn.query(sql, [
                 product.name,
                 product.price,
-                product.category,
+                product.category_id,
                 product.img,
             ]);
             throwErrorOnNotFound(result, 'product');
 
             return result.rows[0];
         } catch (error) {
-            if ((error as DatabaseError).code === '23505') {
-                const imgPath = `${productsPath}/${product.img}`;
-                deleteFile(imgPath);
-            }
+            const imgPath = `${productsPath}/${product.img}`;
+            deleteFile(imgPath);
+
             throw error;
         } finally {
             conn.release();
@@ -86,11 +85,11 @@ export class ProductRepository implements IBaseRepository<Product> {
         const conn = await client.connect();
         try {
             const sql =
-                'UPDATE products SET name=($1), price=($2), category=($3), img=($4) WHERE id=($5) RETURNING *';
+                'UPDATE products SET name=($1), price=($2), category_id=($3), img=($4) WHERE id=($5) RETURNING *';
             const result = await conn.query(sql, [
                 product.name,
                 product.price,
-                product.category,
+                product.category_id,
                 product.img,
                 id,
             ]);

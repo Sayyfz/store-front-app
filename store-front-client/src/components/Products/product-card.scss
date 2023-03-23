@@ -1,5 +1,10 @@
 @import '../../styles/variables';
 
+svg {
+    width: 20px;
+    height: 20px;
+}
+
 .card {
     padding: 0.8em;
     background: #f5f5f5;
@@ -27,11 +32,6 @@
     padding-top: 10%;
 }
 
-svg {
-    width: 20px;
-    height: 20px;
-}
-
 .card-footer {
     width: 100%;
     display: flex;
@@ -43,7 +43,7 @@ svg {
 
 /*Text*/
 .text-title {
-    font-weight: 900;
+    font-weight: 800;
     font-size: 1.2em;
     line-height: 1.5;
 }

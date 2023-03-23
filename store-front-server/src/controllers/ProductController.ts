@@ -29,7 +29,7 @@ class ProductController {
             const product: Product = {
                 name: req.body.name,
                 price: req.body.price,
-                category: (req.body.category as string).toLowerCase(),
+                category_id: (req.body.category_id as string).toLowerCase(),
                 img: req.file?.filename,
             };
             const newProduct = await this.repository.create(product);
@@ -52,7 +52,7 @@ class ProductController {
             const product = {
                 name: req.body.name,
                 price: req.body.price,
-                category: (req.body.category as string).toLowerCase(),
+                category_id: (req.body.category_id as string).toLowerCase(),
                 img: req.file?.filename,
             };
             const newProduct = await this.repository.update(req.params.id, product);

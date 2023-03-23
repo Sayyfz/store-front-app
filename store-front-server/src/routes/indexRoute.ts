@@ -1,4 +1,5 @@
 import express from 'express';
+import categoryRoute from './categoriesRoute';
 import dashboardRoutes from './dashboardRoute';
 import ordersRoute from './ordersRoute';
 import productsRoute from './productsRoute';
@@ -13,6 +14,7 @@ indexRoute.get('/', function (req: express.Request, res: express.Response) {
 indexRoute.use('/users', usersRoute);
 indexRoute.use('/products', productsRoute);
 indexRoute.use('/orders', ordersRoute);
+indexRoute.use('/categories', categoryRoute);
 indexRoute.use('/services', dashboardRoutes);
 
 export default indexRoute;

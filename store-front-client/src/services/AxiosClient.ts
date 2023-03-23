@@ -1,44 +1,40 @@
 import { IHttpClient } from '../types/IHttpClient';
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from 'axios';
+
 import { CustomResponse } from '../types/CustomResponse';
 
 export class AxiosClient implements IHttpClient {
-    private axiosInstace: AxiosInstance;
+    private axiosInstance;
 
-    constructor() {
-        this.axiosInstace = axios.create();
+    constructor(options?: CreateAxiosDefaults) {
+        this.axiosInstance = axios.create(options);
     }
 
-    init(options?: unknown): void {
-        this.axiosInstace = axios.create(options ?? {});
+    init(): void {
+        // Initial setup if needed
     }
 
-    async get(url: string, id?: number, options?: AxiosRequestConfig): Promise<CustomResponse> {
-        const res = await this.axiosInstace.get(`${url}${id ? `/${id}` : ''}`, options);
+    async get(url: string, id?: number, options?: AxiosRequestConfig) {
+        const res = await this.axiosInstance.get(`${url}${id ? `/${id}` : ''}`, options);
         return this.reformatResponse(res);
     }
 
-    async post(url: string, body: unknown, options?: AxiosRequestConfig): Promise<CustomResponse> {
-        const res = await this.axiosInstace.post(url, body, options);
+    async post(url: string, body: unknown, options?: AxiosRequestConfig) {
+        const res = await this.axiosInstance.post(url, body, options);
         return this.reformatResponse(res);
     }
 
-    async delete(url: string, id: number, options?: AxiosRequestConfig): Promise<CustomResponse> {
-        const res = await this.axiosInstace.delete(`${url}/${id}`, options);
+    async delete(url: string, id: number, options?: AxiosRequestConfig) {
+        const res = await this.axiosInstance.delete(`${url}/${id}`, options);
         return this.reformatResponse(res);
     }
 
-    async patch(
-        url: string,
-        id: number,
-        body: unknown,
-        options?: AxiosRequestConfig,
-    ): Promise<CustomResponse> {
-        const res = await this.axiosInstace.patch(`${url}/${id}`, body, options);
+    async patch(url: string, id: number, body: unknown, options?: AxiosRequestConfig) {
+        const res = await this.axiosInstance.patch(`${url}/${id}`, body, options);
         return this.reformatResponse(res);
     }
 
-    reformatResponse(res: AxiosResponse<any, any>) {
+    reformatResponse(res: AxiosResponse<any, any>): CustomResponse {
         return {
             ...res,
             data: res.data,
