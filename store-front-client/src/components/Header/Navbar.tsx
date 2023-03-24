@@ -5,14 +5,27 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import CoolBtn from '../Buttons and Inputs/CoolBtn';
 import CoolSearch from '../Buttons and Inputs/CoolSearch';
+import { filterItems } from '../../slices/item-slice';
+import { debounce } from 'lodash';
 import './nav.scss';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useAppDispatch } from '../../app/hooks';
 
 const NavbarComp = () => {
     const [searchQuery, setSearchQuery] = useState('');
+    //TODO  DEBOUCE JUST DELAYING THE CALL
+    const debouncedFilter = useCallback(
+        debounce(searchQuery => {
+            dispatch(filterItems(searchQuery));
+        }, 500),
+        [],
+    );
+
+    const dispatch = useAppDispatch();
 
     const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
+        debouncedFilter(e.target.value);
     };
 
     const submitForm = (e: React.MouseEvent) => {

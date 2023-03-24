@@ -2,14 +2,13 @@ import express from 'express';
 import Controller from '../controllers/ProductController';
 import { verifyToken } from '../middlewares/verifyToken';
 import 'express-async-errors';
-import upload from '../middlewares/multer';
 
 const productsRoute = express.Router();
 
 productsRoute.get('/', Controller.index);
 productsRoute.get('/:id', Controller.show);
-productsRoute.post('/', verifyToken, upload.single('image'), Controller.create);
+productsRoute.post('/', verifyToken, Controller.create);
 productsRoute.delete('/:id', verifyToken, Controller.delete);
-productsRoute.patch('/:id', verifyToken, upload.single('image'), Controller.update);
+productsRoute.patch('/:id', verifyToken, Controller.update);
 
 export default productsRoute;

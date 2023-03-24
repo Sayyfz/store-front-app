@@ -3,5 +3,10 @@ export interface ProductType {
     name: string;
     price: number;
     category: string;
-    img?: string;
+    images?:
+        | {
+              id?: string | number;
+              imageUrl: string;
+          }[]
+        | [];
 }

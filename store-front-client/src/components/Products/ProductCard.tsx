@@ -8,7 +8,15 @@ const ProductCard = ({ item }: ProductProps) => {
     return (
         <div className='card w-100'>
             <div className='card-img'>
-                <img className='' src={`${import.meta.env.VITE_IMGS_URL}${item.img}`} alt='' />
+                {item.images?.length ? (
+                    <img
+                        className=''
+                        src={`${import.meta.env.VITE_IMGS_URL}${item.images[0].imageUrl}`}
+                        alt=''
+                    />
+                ) : (
+                    ''
+                )}
             </div>
             <div className='card-info'>
                 <p className='text-title'>{item.name} </p>
