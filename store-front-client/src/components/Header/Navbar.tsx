@@ -13,7 +13,6 @@ import { useAppDispatch } from '../../app/hooks';
 
 const NavbarComp = () => {
     const [searchQuery, setSearchQuery] = useState('');
-    //TODO  DEBOUCE JUST DELAYING THE CALL
     const debouncedFilter = useCallback(
         debounce(searchQuery => {
             dispatch(filterItems(searchQuery));
@@ -57,8 +56,12 @@ const NavbarComp = () => {
                             value={searchQuery}
                             title='Search Our Products'
                         />
-                        <Button onClick={e => submitForm(e)} className='nav-search' variant=''>
-                            <img src='/Assets/search-icon.svg' alt='Search' width={32} />
+                        <Button
+                            onClick={e => submitForm(e)}
+                            className='nav-search clickable-icon'
+                            variant=''
+                        >
+                            <i className='fa-solid fa-magnifying-glass fa-xl'></i>
                         </Button>
                     </Form>
                 </Navbar.Collapse>

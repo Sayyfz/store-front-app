@@ -1,0 +1,9 @@
+@import '../../styles/App.scss';
+
+.filter-btn {
+    @extend .font-gray;
+}
+
+.clear-filter {
+    cursor: pointer;
+}

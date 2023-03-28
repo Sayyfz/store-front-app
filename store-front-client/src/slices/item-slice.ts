@@ -18,20 +18,23 @@ const itemSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(getItems.pending, (state, action) => {
-            console.log('pending');
-        });
         builder.addCase(getItems.fulfilled, (state, action) => {
+            console.log(action.payload);
             state.value = action.payload as ProductType[];
         });
         builder.addCase(getItems.rejected, (state, action) => {
             state.value = action.payload as ResponseError;
         });
         builder.addCase(filterItems.fulfilled, (state, action) => {
-            console.log('fulfilled');
             state.value = action.payload as ProductType[];
         });
         builder.addCase(filterItems.rejected, (state, action) => {
+            state.value = action.payload as ResponseError;
+        });
+        builder.addCase(filterItemsByCategory.fulfilled, (state, action) => {
+            state.value = action.payload as ProductType[];
+        });
+        builder.addCase(filterItemsByCategory.rejected, (state, action) => {
             state.value = action.payload as ResponseError;
         });
     },
@@ -57,10 +60,19 @@ export const filterItems = createAsyncThunk('item/filterItems', async (query: st
     }
 });
 
-// const result = (state.value as ProductType[]).filter(product => {
-//     return product.name.includes(action.payload);
-// });
-// state.value = result;
+export const filterItemsByCategory = createAsyncThunk(
+    'item/filterItemsByCategory',
+    async (categoryId: number, thunkAPI) => {
+        try {
+            const { data } = await client.get(
+                import.meta.env.VITE_API_URL + `/services/products_by_category/${categoryId}`,
+            );
+            return data;
+        } catch (error) {
+            console.log((error as Error).message);
+        }
+    },
+);
 
 export const {} = itemSlice.actions;
 export default itemSlice.reducer;

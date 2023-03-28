@@ -32,13 +32,14 @@ export class DatabaseQueries {
         }
     }
 
-    async products_by_category(category: string): Promise<Product[]> {
+    async products_by_category(categoryId: number): Promise<Product[]> {
         const conn = await client.connect();
         try {
-            const sql = 'SELECT * FROM products WHERE category=($1)';
-            const result = await conn.query(sql, [category]);
+            const sql = `SELECT p.*, pi.image_url, pi.id as image_id FROM products p LEFT JOIN product_images pi ON p.id=pi.product_id 
+                RIGHT JOIN categories ON p.category_id=categories.id WHERE category_id=$1`;
+            const result = await conn.query(sql, [categoryId]);
 
-            return result.rows;
+            return reformatProducts(result.rows) as Product[];
         } finally {
             conn.release();
         }
@@ -47,7 +48,6 @@ export class DatabaseQueries {
     async products_search(query: string): Promise<Product[]> {
         const conn = await client.connect();
         try {
-            console.log('running query');
             const sql = `SELECT p.*, pi.image_url, pi.id as image_id FROM products p LEFT JOIN product_images pi
             ON p.id=pi.product_id WHERE name LIKE $1`;
             const result = await conn.query(sql, [`%${query}%`]);

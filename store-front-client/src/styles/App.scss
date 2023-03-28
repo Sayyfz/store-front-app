@@ -21,38 +21,83 @@ ul {
     transition: 0.3s ease;
 }
 
-.outline-accent {
-    border-color: $clr-accent;
+.outline-accent-clr {
+    border-color: $clr-accent !important;
     @extend .btn-transition;
     &:hover {
-        @extend .bg-accent;
+        @extend .bg-accent-clr;
     }
 }
 
-.outline-primary {
-    border-color: $clr-primary;
+.outline-accent-clr {
+    border-color: $clr-accent !important;
     @extend .btn-transition;
     &:hover {
-        @extend .bg-primary;
+        @extend .bg-accent-hovered-clr;
     }
 }
 
-.outline-secondary {
-    border-color: $clr-secondary;
+.outline-primary-clr {
+    border-color: $clr-primary !important;
     @extend .btn-transition;
     &:hover {
-        @extend .bg-secondary;
+        @extend .bg-primary-clr;
     }
 }
 
-.bg-accent {
-    background-color: $clr-accent;
+.outline-secondary-clr {
+    border-color: $clr-secondary !important;
+    @extend .btn-transition;
+    &:hover {
+        @extend .bg-secondary-clr;
+    }
 }
 
-.bg-primary {
-    background-color: $clr-primary;
+.bg-accent-clr {
+    background-color: $clr-accent !important;
 }
 
-.bg-secondary {
-    background-color: $clr-secondary;
+.bg-accent-hovered-clr {
+    background-color: $clr-accent-hover !important;
+}
+
+.bg-primary-clr {
+    background-color: $clr-primary !important;
+}
+
+.bg-secondary-clr {
+    background-color: $clr-secondary !important;
+}
+
+.font-accent {
+    color: $clr-accent !important;
+}
+
+.font-primary {
+    color: $clr-primary !important;
+}
+
+.font-secondary {
+    color: $clr-secondary !important;
+}
+
+.font-black {
+    color: black !important;
+}
+
+.font-gray {
+    color: rgba(0, 0, 0, 0.55) !important;
+}
+
+.clickable-icon {
+    transition: 0.3s ease !important;
+    color: gray !important;
+    &:hover {
+        color: $clr-accent !important;
+        border-color: transparent !important;
+        scale: 0.9;
+    }
+    &:active {
+        scale: 1.15;
+    }
 }

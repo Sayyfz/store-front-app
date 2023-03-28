@@ -46,15 +46,4 @@
 .nav-search {
     scale: 1;
     border: transparent;
-    transition: 0.3s ease !important;
-    &:-moz-placeholder {
-        color: $clr-accent;
-    }
-    &:hover {
-        border-color: transparent !important;
-        scale: 0.9;
-    }
-    &:active {
-        scale: 1.15;
-    }
 }

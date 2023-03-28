@@ -19,10 +19,8 @@ class DashboardController {
     };
 
     products_by_category = async (req: Request, res: Response) => {
-        if (!req.params.category) throw 'Please add a valid category';
-        const products = await this.repository.products_by_category(
-            (req.params.category as string).toLowerCase(),
-        );
+        if (!req.params.categoryId) throw 'Please add a valid categoryId';
+        const products = await this.repository.products_by_category(+req.params.categoryId);
         return res.status(200).json(products);
     };
     products_search = async (req: Request, res: Response) => {
