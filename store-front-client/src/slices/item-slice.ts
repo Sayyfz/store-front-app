@@ -7,10 +7,12 @@ const endpoint = '/products';
 
 interface ItemsState {
     value: ProductType[] | ResponseError;
+    currentItem: ProductType | {};
 }
 
 const initialState: ItemsState = {
     value: [],
+    currentItem: {},
 };
 
 const itemSlice = createSlice({
@@ -18,6 +20,12 @@ const itemSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
+        builder.addCase(getItem.rejected, (state, action) => {
+            state.currentItem = action.payload as ResponseError;
+        });
+        builder.addCase(getItem.fulfilled, (state, action) => {
+            state.currentItem = action.payload as ProductType;
+        });
         builder.addCase(getItems.fulfilled, (state, action) => {
             console.log(action.payload);
             state.value = action.payload as ProductType[];
@@ -38,6 +46,15 @@ const itemSlice = createSlice({
             state.value = action.payload as ResponseError;
         });
     },
+});
+
+export const getItem = createAsyncThunk('getItems/getItem', async (id: number, thunkAPI) => {
+    try {
+        const { data } = await client.get(import.meta.env.VITE_API_URL + endpoint + `/${id}`);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 export const getItems = createAsyncThunk('item/getItems', async (_, thunkAPI) => {

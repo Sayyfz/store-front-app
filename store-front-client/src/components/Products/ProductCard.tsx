@@ -1,6 +1,6 @@
 import { ProductType } from '../../types/Product';
 import './product-card.scss';
-
+import { Link } from 'react-router-dom';
 interface ProductProps {
     item: ProductType;
 }
@@ -8,14 +8,15 @@ const ProductCard = ({ item }: ProductProps) => {
     return (
         <div className='card w-100'>
             <div className='card-img'>
-                {item.images?.length ? (
-                    <img
-                        className=''
-                        src={`${import.meta.env.VITE_IMGS_URL}${item.images[0].imageUrl}`}
-                        alt=''
-                    />
-                ) : (
-                    ''
+                {item.images?.length && (
+                    <>
+                        <img
+                            className=''
+                            src={`${import.meta.env.VITE_IMGS_URL}${item.images[0].imageUrl}`}
+                            alt=''
+                        />
+                        <Link className='product-link' to={`/products/${item.id}`} />
+                    </>
                 )}
             </div>
             <div className='card-info'>

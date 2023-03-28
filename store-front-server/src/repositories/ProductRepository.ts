@@ -49,7 +49,6 @@ export class ProductRepository implements IBaseRepository<Product> {
                     product.images.push({ id: image_id, imageUrl: image_url });
                 }
             });
-            console.log(product);
 
             return product;
         } finally {
