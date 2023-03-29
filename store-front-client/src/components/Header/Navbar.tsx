@@ -5,34 +5,26 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import CoolBtn from '../Buttons and Inputs/CoolBtn';
 import CoolSearch from '../Buttons and Inputs/CoolSearch';
-import { filterItems } from '../../slices/item-slice';
+import { searched } from '../../slices/item-slice';
 import { Link } from 'react-router-dom';
-import { debounce } from 'lodash';
 import './nav.scss';
-import React, { useState, useCallback } from 'react';
-import { useAppDispatch } from '../../app/hooks';
+import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 const NavbarComp = () => {
-    const [searchQuery, setSearchQuery] = useState('');
-    const debouncedFilter = useCallback(
-        debounce(searchQuery => {
-            dispatch(filterItems(searchQuery));
-        }, 500),
-        [],
-    );
-
     const dispatch = useAppDispatch();
+    const searchQuery = useAppSelector(state => state.items.search);
 
     const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(e.target.value);
-        debouncedFilter(e.target.value);
+        dispatch(searched(e.target.value));
     };
 
     const submitForm = (e: React.MouseEvent) => {
         e.preventDefault();
 
-        setSearchQuery('');
+        dispatch(searched(''));
     };
+
     return (
         <Navbar className='m-navbar position-fixed' bg='light' expand='md'>
             <Container fluid='lg' className='d-flex gap-3 position-relative'>
@@ -48,8 +40,13 @@ const NavbarComp = () => {
                         <Link to='/'>Action</Link>
                         <Link to='/'>Action</Link>
                     </Nav>
-                    <div className='nav-buttons d-flex gap-3 mb-3 mb-md-0 me-2'>
-                        <CoolBtn title='Login' />
+                    <div className='nav-buttons d-flex gap-3 mb-3 mb-md-0 me-2 position-relative'>
+                        <CoolBtn title='Login'>
+                            <Link
+                                to={'/login'}
+                                className='nav-login position-absolute w-100 h-100'
+                            />
+                        </CoolBtn>
                     </div>
                     <Form className='d-flex'>
                         <CoolSearch

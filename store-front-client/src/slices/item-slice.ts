@@ -8,17 +8,23 @@ const endpoint = '/products';
 interface ItemsState {
     value: ProductType[] | ResponseError;
     currentItem: ProductType | {};
+    search: string;
 }
 
 const initialState: ItemsState = {
     value: [],
     currentItem: {},
+    search: '',
 };
 
 const itemSlice = createSlice({
     name: 'item',
     initialState,
-    reducers: {},
+    reducers: {
+        searched(state, action: PayloadAction<string>) {
+            state.search = action.payload;
+        },
+    },
     extraReducers: builder => {
         builder.addCase(getItem.rejected, (state, action) => {
             state.currentItem = action.payload as ResponseError;
@@ -27,16 +33,9 @@ const itemSlice = createSlice({
             state.currentItem = action.payload as ProductType;
         });
         builder.addCase(getItems.fulfilled, (state, action) => {
-            console.log(action.payload);
             state.value = action.payload as ProductType[];
         });
         builder.addCase(getItems.rejected, (state, action) => {
-            state.value = action.payload as ResponseError;
-        });
-        builder.addCase(filterItems.fulfilled, (state, action) => {
-            state.value = action.payload as ProductType[];
-        });
-        builder.addCase(filterItems.rejected, (state, action) => {
             state.value = action.payload as ResponseError;
         });
         builder.addCase(filterItemsByCategory.fulfilled, (state, action) => {
@@ -66,17 +65,6 @@ export const getItems = createAsyncThunk('item/getItems', async (_, thunkAPI) =>
     }
 });
 
-export const filterItems = createAsyncThunk('item/filterItems', async (query: string, thunkAPI) => {
-    try {
-        const { data } = await client.get(
-            import.meta.env.VITE_API_URL + `/services/products_search?name=${query}`,
-        );
-        return data;
-    } catch (error) {
-        console.log((error as Error).message);
-    }
-});
-
 export const filterItemsByCategory = createAsyncThunk(
     'item/filterItemsByCategory',
     async (categoryId: number, thunkAPI) => {
@@ -91,5 +79,5 @@ export const filterItemsByCategory = createAsyncThunk(
     },
 );
 
-export const {} = itemSlice.actions;
+export const { searched } = itemSlice.actions;
 export default itemSlice.reducer;

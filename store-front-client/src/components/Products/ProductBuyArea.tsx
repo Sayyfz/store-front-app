@@ -5,7 +5,7 @@ import CoolBtn from '../Buttons and Inputs/CoolBtn';
 
 const ProductBuyArea = () => {
     const product = useAppSelector(state => state.items.currentItem) as ProductType;
-    const [quantity, setQuantity] = useState<number>(0);
+    const [quantity, setQuantity] = useState<number>(1);
 
     const increment = () => {
         setQuantity(quantity => quantity + 1);
@@ -20,7 +20,7 @@ const ProductBuyArea = () => {
             <h3>{product.name}</h3>
             <div>
                 <span>Price </span>
-                {product.price}$
+                {product.price * quantity}$
             </div>
             <div className='d-flex gap-4 justify-content-center align-items-center'>
                 <CoolBtn title='-' onClick={() => decrement()} />
