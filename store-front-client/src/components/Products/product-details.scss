@@ -1,0 +1,32 @@
+@import '../../styles/variables';
+
+.product-details {
+    .product-details-carousel {
+    }
+}
+.carousel-item {
+    img {
+        object-fit: contain;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 576px) {
+    .product-details {
+        & > div {
+            border-radius: 15px;
+        }
+        .product-details-item {
+            .add-to-cart-btn {
+                & > button {
+                    width: 100%;
+                }
+            }
+        }
+    }
+    .carousel-item {
+        img {
+            max-height: $product-height;
+        }
+    }
+}

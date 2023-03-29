@@ -1,11 +1,46 @@
 @import '../../styles/variables';
 
 .m-navbar {
+    z-index: 100;
     color: $clr-accent;
     top: 0;
     left: 0;
     right: 0;
     font-size: 16px;
+
+    .m-nav {
+        a {
+            color: gray;
+            position: relative;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+
+            &:after {
+                content: '';
+                position: absolute;
+                left: 0px;
+                bottom: -5px;
+                width: 100%;
+                opacity: 0;
+                height: 3px;
+                background-color: $clr-accent;
+                transition: all 0.2s ease-in-out;
+            }
+
+            &:hover {
+                color: $clr-accent;
+
+                &:after {
+                    opacity: 1;
+                    bottom: -10px;
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: 100%;
+                    // opacity: 1;
+                }
+            }
+        }
+    }
 }
 
 .hamburger {
@@ -13,36 +48,7 @@
     right: 12px;
     top: 5px;
 }
-.nav-link {
-    position: relative;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
 
-    &:after {
-        content: '';
-        position: absolute;
-        left: 0px;
-        bottom: -5px;
-        width: 100%;
-        opacity: 0;
-        height: 3px;
-        background-color: $clr-accent;
-        transition: all 0.2s ease-in-out;
-    }
-
-    &:hover {
-        color: $clr-accent;
-
-        &:after {
-            opacity: 1;
-            bottom: -10px;
-            margin-left: auto;
-            margin-right: auto;
-            width: 100%;
-            // opacity: 1;
-        }
-    }
-}
 .nav-search {
     scale: 1;
     border: transparent;

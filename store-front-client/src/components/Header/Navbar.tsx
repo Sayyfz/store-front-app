@@ -6,6 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import CoolBtn from '../Buttons and Inputs/CoolBtn';
 import CoolSearch from '../Buttons and Inputs/CoolSearch';
 import { filterItems } from '../../slices/item-slice';
+import { Link } from 'react-router-dom';
 import { debounce } from 'lodash';
 import './nav.scss';
 import React, { useState, useCallback } from 'react';
@@ -40,12 +41,12 @@ const NavbarComp = () => {
                 </h2>
                 <Navbar.Collapse className='me-auto' id='navbarScroll'>
                     <Nav
-                        className='m-nav gap-2 me-auto my-2 my-lg-0'
+                        className='m-nav gap-4 me-auto my-2 my-lg-0'
                         style={{ maxHeight: '200px' }}
                     >
-                        <Nav.Link href='#action1'>Home</Nav.Link>
-                        <Nav.Link href='#action2'>Link</Nav.Link>
-                        <Nav.Link href='#action6'>Link</Nav.Link>
+                        <Link to='/'>Home</Link>
+                        <Link to='/'>Action</Link>
+                        <Link to='/'>Action</Link>
                     </Nav>
                     <div className='nav-buttons d-flex gap-3 mb-3 mb-md-0 me-2'>
                         <CoolBtn title='Login' />
