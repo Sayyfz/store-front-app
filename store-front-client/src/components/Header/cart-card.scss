@@ -1,0 +1,45 @@
+@import '../../styles/variables';
+$cart-margin: 10px;
+.cart-card {
+    width: clamp(20vw, 500px, 100vw);
+    right: $cart-margin;
+    top: 80px;
+    color: black;
+    background-color: rgb(245, 244, 244);
+    overflow: auto;
+    scroll-behavior: smooth;
+    filter: drop-shadow(-4px 4px 15px rgba(0, 0, 0, 0.404));
+    max-height: 475px;
+
+    .cart-header {
+        border-bottom: 2px solid rgba(17, 17, 17, 0.123);
+    }
+
+    .cart-item-row {
+        width: 100%;
+        .cart-item-img {
+            border-radius: 15px;
+            height: 75px;
+            width: 75px;
+            object-fit: contain;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+        }
+        .cart-item-delete {
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .cart-card {
+        border-radius: 15px;
+    }
+}
+
+@media (max-width: 767px) {
+    .cart-card {
+        left: $cart-margin;
+    }
+}

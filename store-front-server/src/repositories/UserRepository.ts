@@ -34,8 +34,9 @@ export class UserRepository implements IBaseRepository<User> {
     async create(user: User): Promise<User> {
         const conn = await client.connect();
         try {
+            await client.query('BEGIN');
             const sql =
-                'INSERT INTO users (first_name, last_name, username, password) VALUES($1, $2, $3, $4) RETURNING *';
+                'INSERT INTO users(first_name, last_name, username, password) VALUES($1, $2, $3, $4) RETURNING *';
 
             const hash = bcrypt.hashSync(
                 user.password + process.env.PEPPER,
@@ -49,7 +50,16 @@ export class UserRepository implements IBaseRepository<User> {
             ]);
             throwErrorOnNotFound(result, 'user');
 
+            const createCartSql =
+                'INSERT INTO carts(total_price, user_id, order_status) VALUES($1, $2, $3) RETURNING *';
+            await conn.query(createCartSql, [0, result.rows[0].id, 'active']);
+            console.log(result.rows[0].id);
+            await client.query('COMMIT');
+
             return result.rows[0];
+        } catch (err) {
+            await client.query('ROLLBACK');
+            throw err;
         } finally {
             conn.release();
         }
@@ -94,17 +104,20 @@ export class UserRepository implements IBaseRepository<User> {
         }
     }
 
-    async authenticate(username: string, password: string): Promise<User | undefined> {
+    async authenticate(username: string, password: string): Promise<User> {
         const conn = await client.connect();
         let user: User;
         try {
-            const sql = 'SELECT password FROM users WHERE username=$1';
+            const sql = 'SELECT * FROM users WHERE username=$1';
             const result = await conn.query(sql, [username]);
             throwErrorOnNotFound(result, 'user');
 
             user = result.rows[0];
 
-            if (bcrypt.compareSync(password + process.env.PEPPER, user.password)) return user;
+            if (!bcrypt.compareSync(password + process.env.PEPPER, user.password))
+                throwValidationError('Password is not correct');
+
+            return user;
         } finally {
             conn.release();
         }

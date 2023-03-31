@@ -8,16 +8,6 @@ class DashboardController {
         this.repository = repository;
     }
 
-    current_orders_by_user = async (req: Request, res: Response) => {
-        const orders = await this.repository.current_orders_by_user(parseInt(req.params.id));
-        return res.status(200).json(orders);
-    };
-
-    completed_orders_by_user = async (req: Request, res: Response) => {
-        const orders = await this.repository.completed_orders_by_user(parseInt(req.params.id));
-        return res.status(200).json(orders);
-    };
-
     products_by_category = async (req: Request, res: Response) => {
         if (!req.params.categoryId) throw 'Please add a valid categoryId';
         const products = await this.repository.products_by_category(+req.params.categoryId);

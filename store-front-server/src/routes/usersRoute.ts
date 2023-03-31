@@ -5,7 +5,7 @@ import 'express-async-errors';
 
 const usersRoute = express.Router();
 
-usersRoute.get('/', verifyToken, Controller.index);
+usersRoute.get('/', Controller.index);
 usersRoute.post('/', Controller.create);
 usersRoute.get('/:id', verifyToken, Controller.show);
 usersRoute.delete('/:id', verifyToken, Controller.delete);

@@ -17,7 +17,7 @@ const Home = () => {
     }, []);
     return (
         <div className='home py-5'>
-            <Container>
+            <Container fluid='md'>
                 <Filters />
                 <ProductList items={items} />
             </Container>

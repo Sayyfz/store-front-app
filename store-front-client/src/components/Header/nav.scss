@@ -43,10 +43,10 @@
     }
 }
 
-.hamburger {
+.nav-login {
     position: absolute;
-    right: 12px;
-    top: 5px;
+    top: 0;
+    left: 0;
 }
 
 .nav-search {
@@ -54,8 +54,23 @@
     border: transparent;
 }
 
-.nav-login {
-    position: absolute;
-    top: 0;
-    left: 0;
+.nav-icons {
+    .hamburger {
+        border: none;
+        &:focus,
+        &:focus-within {
+            box-shadow: none;
+        }
+    }
+    .nav-cart {
+        color: gray;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-icons {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+    }
 }

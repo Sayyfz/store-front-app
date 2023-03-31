@@ -81,6 +81,7 @@ svg {
 .card-button:hover {
     border: 1px solid $clr-accent-hover;
     background-color: $clr-accent-hover;
+    z-index: 5;
 }
 
 .product-link {

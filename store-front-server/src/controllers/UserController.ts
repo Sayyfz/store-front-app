@@ -3,6 +3,7 @@ import { User } from '../models/UserModel';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { checkErrorAndNext } from '../utils/Helpers';
+import CartServices from '../services/CartServices';
 
 class UserController {
     private repository: UserRepository;
@@ -30,7 +31,8 @@ class UserController {
         };
         try {
             const newUser = await this.repository.create(user);
-            const token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET as string);
+            const cart = await CartServices.get_cart_with_items(newUser.id as string);
+            const token = jwt.sign({ user: newUser, cart }, process.env.TOKEN_SECRET as string);
             return res.status(201).json(token);
         } catch (err) {
             checkErrorAndNext(err as Error, 'User', next);
@@ -60,7 +62,8 @@ class UserController {
 
     authenticate = async (req: Request, res: Response, next: NextFunction) => {
         const user = await this.repository.authenticate(req.body.username, req.body.password);
-        const token = jwt.sign({ user }, process.env.TOKEN_SECRET as string);
+        const cart = await CartServices.get_cart_with_items(user.id as string);
+        const token = jwt.sign({ user, cart }, process.env.TOKEN_SECRET as string);
         return res.status(200).json(token);
     };
 }

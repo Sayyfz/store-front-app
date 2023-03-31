@@ -7,12 +7,15 @@ import CoolBtn from '../Buttons and Inputs/CoolBtn';
 import CoolSearch from '../Buttons and Inputs/CoolSearch';
 import { searched } from '../../slices/item-slice';
 import { Link } from 'react-router-dom';
+import { toggleCart } from '../../slices/cart-slice';
 import './nav.scss';
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import CartCard from './CartCard';
 
 const NavbarComp = () => {
     const dispatch = useAppDispatch();
+    const cartState = useAppSelector(state => state.cart);
     const searchQuery = useAppSelector(state => state.items.search);
 
     const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,13 +24,16 @@ const NavbarComp = () => {
 
     const submitForm = (e: React.MouseEvent) => {
         e.preventDefault();
-
         dispatch(searched(''));
+    };
+
+    const cartOnClick = () => {
+        dispatch(toggleCart());
     };
 
     return (
         <Navbar className='m-navbar position-fixed' bg='light' expand='md'>
-            <Container fluid='lg' className='d-flex gap-3 position-relative'>
+            <Container fluid='lg' className='d-flex gap-lg-3 position-relative'>
                 <h2 role='button' className='cursor-pointer lh-lg me-3 my-0'>
                     LOGO
                 </h2>
@@ -56,15 +62,23 @@ const NavbarComp = () => {
                         />
                         <Button
                             onClick={e => submitForm(e)}
-                            className='nav-search clickable-icon'
+                            className='nav-search clickable-icon ms-lg-2'
                             variant=''
                         >
                             <i className='fa-solid fa-magnifying-glass fa-xl'></i>
                         </Button>
                     </Form>
                 </Navbar.Collapse>
-
-                <Navbar.Toggle className='hamburger' aria-controls='navbarScroll' />
+                <div className='nav-icons d-flex gap-3 align-items-center'>
+                    <i
+                        className='nav-cart fa-solid fa-cart-shopping fa-xl clickable-icon'
+                        onClick={cartOnClick}
+                    ></i>
+                    <Navbar.Toggle className='hamburger' aria-controls='navbarScroll'>
+                        <i className='fa-solid fa-bars fa-xl clickable-icon'></i>
+                    </Navbar.Toggle>
+                    <CartCard />
+                </div>
             </Container>
         </Navbar>
     );
