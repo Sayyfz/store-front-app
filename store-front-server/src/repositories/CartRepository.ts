@@ -104,11 +104,21 @@ export class CartRepository implements IBaseRepository<Cart> {
                 );
             }
 
-            const sql =
-                'INSERT INTO cart_items(cart_id, product_id, quantity) VALUES ($1, $2, $3) RETURNING *';
-            const result = await conn.query(sql, [cart_id, product_id, quantity]);
+            const checkCartItemSql = 'SELECT id FROM cart_items WHERE product_id=$1 AND cart_id=$2';
+            const checkCartItemResult = await conn.query(checkCartItemSql, [product_id, cart_id]);
+            const cartItem = checkCartItemResult.rows[0];
 
-            return result.rows[0];
+            if (cartItem) {
+                // Add to quantity if product is added to cart already
+                const sql = 'UPDATE cart_items SET quantity=$1 + quantity WHERE id=$2 RETURNING *';
+                const result = await conn.query(sql, [quantity, cartItem.id]);
+                return result.rows[0];
+            } else {
+                const sql =
+                    'INSERT INTO cart_items(cart_id, product_id, quantity) VALUES ($1, $2, $3) RETURNING *';
+                const result = await conn.query(sql, [cart_id, product_id, quantity]);
+                return result.rows[0];
+            }
         } finally {
             conn.release();
         }

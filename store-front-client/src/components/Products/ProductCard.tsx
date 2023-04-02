@@ -2,10 +2,20 @@ import { ProductType } from '../../types/Product';
 import './product-card.scss';
 import { Link } from 'react-router-dom';
 import AddToCartIcon from '../svgs/AddToCartIcon';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { addProductToCart } from '../../slices/cart-slice';
+import { CartType } from '../../types/Cart';
 interface ProductProps {
     item: ProductType;
 }
 const ProductCard = ({ item }: ProductProps) => {
+    const dispatch = useAppDispatch();
+    const cart = useAppSelector(state => state.cart.cart) as CartType;
+
+    const addToCart = () => {
+        cart.id && dispatch(addProductToCart({ cart_id: cart.id, product: item, quantity: 1 }));
+    };
+
     return (
         <div className='product-card card w-100'>
             <div className='card-img'>
@@ -25,9 +35,9 @@ const ProductCard = ({ item }: ProductProps) => {
             </div>
             <div className='card-footer'>
                 <span className='text-title'>{item.price}</span>
-                <div className='card-button'>
+                <button className='card-button' onClick={addToCart}>
                     <AddToCartIcon />
-                </div>
+                </button>
             </div>
         </div>
     );

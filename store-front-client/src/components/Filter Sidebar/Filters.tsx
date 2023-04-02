@@ -11,8 +11,8 @@ function Filters() {
     const [radioValue, setRadioValue] = useState('0');
 
     const radios = [
-        { name: 'Men', value: '1' },
-        { name: 'Women', value: '2' },
+        { name: 'Men', value: '2' },
+        { name: 'Women', value: '3' },
     ];
     return (
         <div className='d-flex justify-content-center align-items-center'>

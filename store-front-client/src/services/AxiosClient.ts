@@ -20,7 +20,12 @@ export class AxiosClient implements IHttpClient {
     }
 
     async post(url: string, body: unknown, options?: AxiosRequestConfig) {
-        const res = await this.axiosInstance.post(url, body, options);
+        const res = await this.axiosInstance.post(url, body, {
+            ...options,
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
         return this.reformatResponse(res);
     }
 

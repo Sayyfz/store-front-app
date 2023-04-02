@@ -33,4 +33,4 @@ class ApiService implements IApiService {
     }
 }
 
-export default new ApiService(HttpClientType.Fetch);
+export default new ApiService(HttpClientType.Axios);

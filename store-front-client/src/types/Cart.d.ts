@@ -1,4 +1,3 @@
-'cart';
 import { ProductType } from './Product';
 
 export interface CartType {
@@ -6,5 +5,10 @@ export interface CartType {
     total_price: number;
     user_id: number;
     order_status: string;
-    cart_items: ProductType[] | [];
+    cart_items: CartItem[];
+}
+
+export interface CartItem extends ProductType {
+    image_url: string;
+    quantity: number;
 }
