@@ -11,8 +11,9 @@ $cart-margin: 10px;
     filter: drop-shadow(-4px 4px 15px rgba(0, 0, 0, 0.404));
     max-height: 475px;
 
+    $seperator: 2px solid rgba(17, 17, 17, 0.123);
     .cart-header {
-        border-bottom: 2px solid rgba(17, 17, 17, 0.123);
+        border-bottom: $seperator;
     }
 
     .cart-item-row {
@@ -29,6 +30,9 @@ $cart-margin: 10px;
         }
         .cart-item-delete {
         }
+    }
+    .cart-footer {
+        border-top: $seperator;
     }
 }
 

@@ -3,6 +3,7 @@ import { CartItem, CartType } from '../types/Cart';
 import { ResponseError } from '../types/ResponseError';
 import ApiService from '../services/ApiService';
 import { ProductType } from '../types/Product';
+import axios, { AxiosError } from 'axios';
 
 const endpoint = '/carts';
 interface CartState {
@@ -29,10 +30,6 @@ const cartSlice = createSlice({
                 console.log((error as Error).message);
             }
         },
-
-        removeFromCart(state, action: PayloadAction<number>) {
-            (state.cart as CartType)?.cart_items.filter(item => item.id !== action.payload);
-        },
     },
     extraReducers: builder => {
         builder.addCase(addProductToCart.fulfilled, (state: CartState, action) => {
@@ -55,6 +52,15 @@ const cartSlice = createSlice({
         builder.addCase(addProductToCart.rejected, (state, action) => {
             state.cart = action.payload as ResponseError;
         });
+        builder.addCase(removeFromCart.fulfilled, (state, action) => {
+            (state.cart as CartType).cart_items = (state.cart as CartType)?.cart_items.filter(
+                item => item.id !== action.payload,
+            );
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+        });
+        builder.addCase(removeFromCart.rejected, (state, action) => {
+            console.log('removal rejected');
+        });
     },
 });
 
@@ -64,8 +70,6 @@ export const addProductToCart = createAsyncThunk(
         { cart_id, product, quantity }: { cart_id: number; product: ProductType; quantity: number },
         thunkAPI,
     ) => {
-        // @ts-ignore
-        console.log(product.images[0].imageUrl);
         try {
             await ApiService.post(
                 `${import.meta.env.VITE_API_URL}${endpoint}/${cart_id}/products`,
@@ -85,6 +89,24 @@ export const addProductToCart = createAsyncThunk(
         }
     },
 );
+export const removeFromCart = createAsyncThunk(
+    'cart/removeItemFromCart',
+    async ({ product_id, cart }: { product_id: number; cart: CartType }, thunkAPI) => {
+        try {
+            await axios.delete(
+                `${import.meta.env.VITE_API_URL}${endpoint}/${cart.id}/products/${product_id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                },
+            );
+            return product_id;
+        } catch (error) {
+            console.log(error as AxiosError);
+        }
+    },
+);
 
-export const { toggleCart, fetchCartFromStorage, removeFromCart } = cartSlice.actions;
+export const { toggleCart, fetchCartFromStorage } = cartSlice.actions;
 export default cartSlice.reducer;

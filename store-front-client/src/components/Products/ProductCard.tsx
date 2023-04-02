@@ -34,7 +34,7 @@ const ProductCard = ({ item }: ProductProps) => {
                 <p className='text-title'>{item.name} </p>
             </div>
             <div className='card-footer'>
-                <span className='text-title'>{item.price}</span>
+                <span className='text-title'>{item.price}$</span>
                 <button className='card-button' onClick={addToCart}>
                     <AddToCartIcon />
                 </button>

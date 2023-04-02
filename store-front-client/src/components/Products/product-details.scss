@@ -4,6 +4,19 @@
     .product-details-carousel {
     }
 }
+.product-quantity {
+    border: none;
+    &,
+    &:focus,
+    &:focus-visible {
+        outline: none;
+    }
+    &[type='number']::-webkit-outer-spin-button,
+    &[type='number']::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
 .carousel-item {
     img {
         object-fit: contain;

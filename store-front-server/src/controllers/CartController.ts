@@ -45,15 +45,23 @@ class CartController {
 
     addProductToCart = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const deletedCart = await this.repository.addProduct(
+            const relation = await this.repository.addProduct(
                 req.body.quantity,
                 req.params.id,
                 req.body.product_id,
             );
-            return res.status(200).json(deletedCart);
+            return res.status(200).json(relation);
         } catch (error) {
             checkErrorAndNext(error as Error, 'Product in cart', next);
         }
+    };
+
+    deleteProductFromCart = async (req: Request, res: Response, next: NextFunction) => {
+        const deletedRelation = await this.repository.delete_item_from_cart(
+            +req.params.id,
+            +req.params.product_id,
+        );
+        return res.status(200).json(deletedRelation);
     };
 }
 

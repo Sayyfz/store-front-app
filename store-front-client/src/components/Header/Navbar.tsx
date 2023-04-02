@@ -15,7 +15,6 @@ import CartCard from './CartCard';
 
 const NavbarComp = () => {
     const dispatch = useAppDispatch();
-    const cartState = useAppSelector(state => state.cart);
     const searchQuery = useAppSelector(state => state.items.search);
 
     const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {

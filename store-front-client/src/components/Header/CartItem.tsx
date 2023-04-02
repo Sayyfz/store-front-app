@@ -1,17 +1,16 @@
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { removeFromCart } from '../../slices/cart-slice';
-import { CartItem } from '../../types/Cart';
+import { CartItem, CartType } from '../../types/Cart';
 
 interface CartItemProps {
     cartItem: CartItem;
 }
 const CartItem = ({ cartItem }: CartItemProps) => {
     const dispatch = useAppDispatch();
+    const cart = useAppSelector(state => state.cart.cart);
 
     const removeCartItem = () => {
-        dispatch(removeFromCart(+cartItem.id));
-        // localStorage.removeItem('token');
-        // localStorage.removeItem('cart');
+        dispatch(removeFromCart({ product_id: +cartItem.id, cart: cart as CartType }));
     };
 
     return (
@@ -25,7 +24,7 @@ const CartItem = ({ cartItem }: CartItemProps) => {
                 <p className='cart-item-name m-0 pb-1'>{cartItem.name}</p>
                 <p className='cart-item-price m-0 pb-1'>
                     {cartItem.price}$ X {cartItem.quantity}{' '}
-                    <span>{cartItem.price * cartItem.quantity}$</span>
+                    <strong className='ms-auto'>{cartItem.price * cartItem.quantity}$</strong>
                 </p>
             </div>
             <i

@@ -123,6 +123,18 @@ export class CartRepository implements IBaseRepository<Cart> {
             conn.release();
         }
     }
+
+    async delete_item_from_cart(id: number, product_id: number) {
+        const conn = await client.connect();
+        try {
+            const sql = `DELETE FROM cart_items WHERE cart_id=$1 AND product_id=$2`;
+            const result = await conn.query(sql, [id, product_id]);
+
+            return result.rows[0];
+        } finally {
+            conn.release();
+        }
+    }
 }
 
 export default new CartRepository();

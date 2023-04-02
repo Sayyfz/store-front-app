@@ -11,5 +11,6 @@ cartRoute.post('/', Controller.create);
 cartRoute.patch('/:id', verifyToken, Controller.update);
 cartRoute.delete('/:id', verifyToken, Controller.delete);
 cartRoute.post('/:id/products', verifyToken, Controller.addProductToCart);
+cartRoute.delete('/:id/products/:product_id', verifyToken, Controller.deleteProductFromCart);
 
 export default cartRoute;
