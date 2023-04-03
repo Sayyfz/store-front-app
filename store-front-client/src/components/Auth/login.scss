@@ -1,2 +1,34 @@
-.login-wrapper {
+@import '../../styles/variables';
+
+@mixin bg-error() {
+    border-radius: 5px;
+    background-color: rgb(245, 218, 218);
+    padding: 0.5rem;
+}
+.login-page {
+    height: 80vh;
+    .login-wrapper {
+        height: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.219);
+        border-radius: 15px;
+        padding-bottom: 6rem;
+    }
+    .text-danger {
+        // @include bg-error();
+        font-size: 0.8rem;
+        line-height: 1;
+    }
+}
+
+.signup-text {
+    a {
+        color: $clr-accent;
+        filter: brightness(1);
+        &:hover {
+            transition: 0.3s ease;
+            color: $clr-accent;
+            filter: brightness(0.8);
+        }
+    }
+    font-size: 0.85rem;
 }

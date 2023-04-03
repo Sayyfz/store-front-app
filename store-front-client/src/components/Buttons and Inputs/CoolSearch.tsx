@@ -1,6 +1,8 @@
 import './cool-search.scss';
 
 interface CoolSearchProps {
+    autoComplete?: string;
+    name?: string;
     value: string;
     title: string;
     onKeyPress?: () => void;
@@ -8,12 +10,21 @@ interface CoolSearchProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CoolSearch = ({ title, onChange, value, onKeyPress, type }: CoolSearchProps) => {
+const CoolSearch = ({
+    autoComplete,
+    name,
+    title,
+    onChange,
+    value,
+    onKeyPress,
+    type,
+}: CoolSearchProps) => {
     return (
         <input
+            autoComplete={autoComplete ?? ''}
             placeholder={title}
             type={type ?? 'text'}
-            name='text'
+            name={name ?? 'text'}
             value={value}
             className='coolSearch'
             onChange={onChange}

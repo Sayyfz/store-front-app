@@ -110,7 +110,7 @@ export class UserRepository implements IBaseRepository<User> {
         try {
             const sql = 'SELECT * FROM users WHERE username=$1';
             const result = await conn.query(sql, [username]);
-            throwErrorOnNotFound(result, 'user');
+            throwErrorOnNotFound(result, 'user', 'Incorrect username');
 
             user = result.rows[0];
 

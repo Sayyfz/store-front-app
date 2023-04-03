@@ -3,12 +3,13 @@ import './cool-btn.scss';
 interface CoolBtnProps {
     title: string;
     onClick?: () => void;
+    type?: 'submit' | 'button' | 'reset';
     children?: React.ReactNode;
 }
 
-const CoolBtn = ({ title, onClick, children }: CoolBtnProps) => {
+const CoolBtn = ({ title, onClick, type, children }: CoolBtnProps) => {
     return (
-        <button className={'coolBtn'} onClick={onClick}>
+        <button type={type ?? 'button'} className={'coolBtn'} onClick={onClick}>
             {title}
             {children}
         </button>
