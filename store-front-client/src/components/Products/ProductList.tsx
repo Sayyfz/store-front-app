@@ -1,7 +1,7 @@
 import { ProductType } from '../../types/Product';
 import { ResponseError } from '../../types/ResponseError';
-import ProductCard from './ProductCard';
 import './product-list.scss';
+import ProductCard from './ProductCard';
 import { useAppSelector } from '../../app/hooks';
 import { useMemo } from 'react';
 

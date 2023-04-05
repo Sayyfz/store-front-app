@@ -1,3 +1,4 @@
+import './nav.scss';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -8,13 +9,15 @@ import CoolSearch from '../Buttons and Inputs/CoolSearch';
 import { searched } from '../../slices/item-slice';
 import { Link } from 'react-router-dom';
 import { toggleCart } from '../../slices/cart-slice';
-import './nav.scss';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import CartCard from './CartCard';
+import { handleLogout } from '../../slices/auth-slice';
+const CartCard = lazy(() => import('./CartCard'));
 
 const NavbarComp = () => {
     const dispatch = useAppDispatch();
+    const isCartOpened = useAppSelector(state => state.cart.isCartOpened);
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
     const searchQuery = useAppSelector(state => state.items.search);
 
     const onSearchChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,12 +33,17 @@ const NavbarComp = () => {
         dispatch(toggleCart());
     };
 
+    const logout = () => {
+        dispatch(handleLogout());
+    };
+
     return (
         <Navbar className='m-navbar position-fixed' bg='light' expand='md'>
             <Container fluid='lg' className='d-flex gap-lg-3 position-relative'>
                 <h2 role='button' className='cursor-pointer lh-lg me-3 my-0'>
                     LOGO
                 </h2>
+
                 <Navbar.Collapse className='me-auto' id='navbarScroll'>
                     <Nav
                         className='m-nav gap-4 me-auto my-2 my-lg-0'
@@ -46,12 +54,16 @@ const NavbarComp = () => {
                         <Link to='/'>Action</Link>
                     </Nav>
                     <div className='nav-buttons d-flex gap-3 mb-3 mb-md-0 me-2 position-relative'>
-                        <CoolBtn title='Login'>
-                            <Link
-                                to={'/login'}
-                                className='nav-login position-absolute w-100 h-100'
-                            />
-                        </CoolBtn>
+                        {isLoggedIn !== true ? (
+                            <CoolBtn title='Login'>
+                                <Link
+                                    to={'/login'}
+                                    className='nav-login position-absolute w-100 h-100'
+                                />
+                            </CoolBtn>
+                        ) : (
+                            <CoolBtn title='Logout' onClick={logout} />
+                        )}
                     </div>
                     <Form className='d-flex'>
                         <CoolSearch
@@ -69,14 +81,20 @@ const NavbarComp = () => {
                     </Form>
                 </Navbar.Collapse>
                 <div className='nav-icons d-flex gap-3 align-items-center'>
-                    <i
-                        className='nav-cart fa-solid fa-cart-shopping fa-xl clickable-icon'
-                        onClick={cartOnClick}
-                    ></i>
+                    <Suspense>
+                        {isLoggedIn ? (
+                            <>
+                                <i
+                                    className='nav-cart fa-solid fa-cart-shopping fa-xl clickable-icon'
+                                    onClick={cartOnClick}
+                                ></i>
+                                {isCartOpened ? <CartCard /> : null}
+                            </>
+                        ) : null}
+                    </Suspense>
                     <Navbar.Toggle className='hamburger' aria-controls='navbarScroll'>
                         <i className='fa-solid fa-bars fa-xl clickable-icon'></i>
                     </Navbar.Toggle>
-                    <CartCard />
                 </div>
             </Container>
         </Navbar>

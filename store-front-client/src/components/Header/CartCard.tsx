@@ -25,7 +25,7 @@ const CartCard = () => {
 
     return (
         <div className={`cart-card position-absolute p-4 ${isCartOpened ? 'd-block' : 'd-none'}`}>
-            <h3 className='cart-header text-center pb-3 mb-4'>Cart Title</h3>
+            <h3 className='cart-header text-center pb-3 mb-4'>Cart</h3>
             <>
                 {cart && Object.keys(cart).length
                     ? (cart as CartType)?.cart_items?.map(item => (

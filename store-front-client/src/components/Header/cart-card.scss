@@ -28,8 +28,6 @@ $cart-margin: 10px;
         .cart-item-details {
             flex-grow: 1;
         }
-        .cart-item-delete {
-        }
     }
     .cart-footer {
         border-top: $seperator;
@@ -44,6 +42,7 @@ $cart-margin: 10px;
 
 @media (max-width: 767px) {
     .cart-card {
-        left: $cart-margin;
+        top: 50px;
+        right: -10px;
     }
 }

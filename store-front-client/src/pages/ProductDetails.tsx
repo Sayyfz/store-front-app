@@ -1,21 +1,33 @@
-import { useEffect } from 'react';
+import '../components/Products/product-details.scss';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProductType } from '../types/Product';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getItem } from '../slices/item-slice';
 import ProductDetailsCarousel from '../components/Products/ProductDetailsCarousel';
-import '../components/Products/product-details.scss';
 import ProductBuyArea from '../components/Products/ProductBuyArea';
+import CoolSpinner from '../components/Buttons and Inputs/CoolSpinner';
 
 const ProductDetails = () => {
     const dispatch = useAppDispatch();
+    const [loading, setLoading] = useState(true);
     const product = useAppSelector(state => state.items.currentItem) as ProductType;
     const { id } = useParams();
 
     useEffect(() => {
-        if (id) dispatch(getItem(+id));
-    }, []);
+        if (id) {
+            dispatch(getItem(+id)).then(() => {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 200);
+            });
+        }
+    }, [dispatch, id]);
+
+    if (loading) {
+        return <CoolSpinner />;
+    }
 
     return (
         <Container fluid='lg'>

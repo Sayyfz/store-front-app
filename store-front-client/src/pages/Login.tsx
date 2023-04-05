@@ -1,8 +1,7 @@
 import '../components/Auth/login.scss';
 import jwtDecode from 'jwt-decode';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ApiService from '../services/ApiService';
-import { useAppDispatch } from '../app/hooks';
 import { useNavigate } from 'react-router-dom';
 import { Container, Form } from 'react-bootstrap';
 import CoolBtn from '../components/Buttons and Inputs/CoolBtn';
@@ -12,11 +11,14 @@ import { ResponseError } from '../types/ResponseError';
 import { AxiosError } from 'axios';
 import { validate } from '../helpers/Validate';
 import { ValidationErrors } from '../types/ValidationErrors';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { handleLogin } from '../slices/auth-slice';
 
 const Login = () => {
     const navigate = useNavigate();
-
     const dispatch = useAppDispatch();
+
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
     const [frontendErrors, setFrontendErrors] = useState<ValidationErrors>({});
     const [backendErrors, setBackendErrors] = useState<ResponseError>({ errors: [] });
     const [fields, setFields] = useState({
@@ -27,13 +29,14 @@ const Login = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        //validation
         const validationFields = validate(fields);
         if (validationFields.username || validationFields.password) {
             setFrontendErrors(validate(fields));
             setBackendErrors({ errors: [] });
             return;
         }
-
+        //fetching
         try {
             const { data } = await ApiService.post(
                 import.meta.env.VITE_API_URL + '/users/authenticate',
@@ -42,7 +45,8 @@ const Login = () => {
                     password: fields.password,
                 },
             );
-            handleLocalStorageOnLogin(data);
+            //handling successful login
+            dispatch(handleLogin(data));
             setFields({ username: '', password: '' });
             navigate('/');
         } catch (err) {
@@ -55,11 +59,11 @@ const Login = () => {
         }
     };
 
-    const handleLocalStorageOnLogin = (data: unknown) => {
-        localStorage.setItem('token', data as string);
-        const decoded = jwtDecode(data as string);
-        localStorage.setItem('cart', JSON.stringify((decoded as any).cart));
-    };
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate('/');
+        }
+    }, []);
 
     return (
         <Container

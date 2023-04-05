@@ -4,6 +4,7 @@ import { ResponseError } from '../types/ResponseError';
 import ApiService from '../services/ApiService';
 import { ProductType } from '../types/Product';
 import axios, { AxiosError } from 'axios';
+import { getCookie } from '../helpers/Cookies';
 
 const endpoint = '/carts';
 interface CartState {
@@ -24,11 +25,7 @@ const cartSlice = createSlice({
             state.isCartOpened = !state.isCartOpened;
         },
         fetchCartFromStorage(state) {
-            try {
-                state.cart = JSON.parse(localStorage.getItem('cart') as string) as CartType;
-            } catch (error) {
-                console.log((error as Error).message);
-            }
+            state.cart = JSON.parse(localStorage.getItem('cart') as string) as CartType;
         },
     },
     extraReducers: builder => {

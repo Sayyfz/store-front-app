@@ -5,15 +5,21 @@ import { CartType } from '../../types/Cart';
 import { ProductType } from '../../types/Product';
 import CoolBtn from '../Buttons and Inputs/CoolBtn';
 import '../Buttons and Inputs/cool-search.scss';
+import { getCookie } from '../../helpers/Cookies';
+import { useNavigate } from 'react-router-dom';
 
 const ProductBuyArea = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const cart = useAppSelector(state => state.cart.cart) as CartType;
-
     const product = useAppSelector(state => state.items.currentItem) as ProductType;
     const [quantity, setQuantity] = useState<number>(1);
 
     const addToCart = () => {
+        if (getCookie('isLoggedIn') !== 'true') {
+            navigate('/login');
+            return;
+        }
         cart.id &&
             dispatch(addProductToCart({ cart_id: cart.id, product, quantity: quantity ?? 0 }));
     };
@@ -25,6 +31,7 @@ const ProductBuyArea = () => {
 
         setQuantity(quantity => quantity - 1);
     };
+
     return (
         <div className='product-details-item w-100 d-flex flex-column gap-3'>
             <h3>{product.name}</h3>
