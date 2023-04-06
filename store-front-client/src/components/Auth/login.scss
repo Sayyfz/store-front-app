@@ -6,12 +6,14 @@
     padding: 0.5rem;
 }
 .login-page {
-    height: 80vh;
+    min-height: 80vh;
     .login-wrapper {
         height: 100%;
         border: 1px solid rgba(0, 0, 0, 0.219);
         border-radius: 15px;
         padding-bottom: 6rem;
+        .field-row {
+        }
     }
     .text-danger {
         // @include bg-error();

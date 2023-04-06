@@ -77,7 +77,7 @@ const Login = () => {
                     onSubmit={e => handleSubmit(e)}
                 >
                     <Form.Group
-                        className='mb-3 d-flex justify-content-between align-items-center'
+                        className='field-row mb-3 d-flex justify-content-between align-items-center'
                         controlId='formBasicEmail'
                     >
                         <Form.Label className='me-3 mb-0'>Username</Form.Label>
@@ -93,7 +93,7 @@ const Login = () => {
                     <p className='text-danger '>{frontendErrors?.username}</p>
 
                     <Form.Group
-                        className='mb-3 d-flex justify-content-between align-items-center'
+                        className='field-row mb-3 d-flex justify-content-between align-items-center'
                         controlId='formBasicPassword'
                     >
                         <Form.Label className='me-3 mb-0'>Password</Form.Label>
