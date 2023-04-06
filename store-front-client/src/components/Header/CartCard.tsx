@@ -27,11 +27,15 @@ const CartCard = () => {
         <div className={`cart-card position-absolute p-4 ${isCartOpened ? 'd-block' : 'd-none'}`}>
             <h3 className='cart-header text-center pb-3 mb-4'>Cart</h3>
             <>
-                {cart && Object.keys(cart).length
-                    ? (cart as CartType)?.cart_items?.map(item => (
-                          <CartItem key={item.id} cartItem={item} />
-                      ))
-                    : 'No products added to cart currently'}
+                {cart && Object.keys(cart).length && (cart as CartType).cart_items.length ? (
+                    (cart as CartType)?.cart_items?.map(item => (
+                        <CartItem key={item.id} cartItem={item} />
+                    ))
+                ) : (
+                    <div className='mb-4 text-center text-muted'>
+                        Products added to cart will show here
+                    </div>
+                )}
             </>
             <div
                 className={`cart-footer d-flex justify-content-center fs-5 pt-3 ${

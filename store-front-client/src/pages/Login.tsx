@@ -9,7 +9,7 @@ import CoolSearch from '../components/Buttons and Inputs/CoolSearch';
 import { Link } from 'react-router-dom';
 import { ResponseError } from '../types/ResponseError';
 import { AxiosError } from 'axios';
-import { validate } from '../helpers/Validate';
+import { validateForm } from '../helpers/Validate';
 import { ValidationErrors } from '../types/ValidationErrors';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { handleLogin } from '../slices/auth-slice';
@@ -30,9 +30,9 @@ const Login = () => {
         e.preventDefault();
 
         //validation
-        const validationFields = validate(fields);
-        if (validationFields.username || validationFields.password) {
-            setFrontendErrors(validate(fields));
+        const validationErrors = validateForm(fields, true);
+        if (validationErrors.username || validationErrors.password) {
+            setFrontendErrors(validationErrors);
             setBackendErrors({ errors: [] });
             return;
         }
