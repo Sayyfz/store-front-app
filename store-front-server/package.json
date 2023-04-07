@@ -7,7 +7,7 @@
         "dev": "set ENV=dev&& nodemon -r dotenv/config src/index.ts",
         "prod": "set ENV=production&& nodemon -r dotenv/config src/index.ts",
         "build": "npx tsc",
-        "start": "npm run build && nodemon -r dotenv/config dist/index",
+        "start": "npm run build && node -r dotenv/config dist/index",
         "migrate-up:prod": "set ENV=production&& db-migrate reset -e production && db-migrate up -e production",
         "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./api/index.js\"",
         "test": "set ENV=test&& db-migrate reset -e test && db-migrate up -e test && jasmine-ts -r dotenv/config",
