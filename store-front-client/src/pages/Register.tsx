@@ -44,14 +44,13 @@ const Register = () => {
         }
 
         try {
-            const f = { ...fields };
-            console.log(f);
             const { data } = await ApiService.post(import.meta.env.VITE_API_URL + '/users', {
                 ...fields,
             });
             //handling successful Register
             dispatch(handleLogin(data));
             setFields({ first_name: '', last_name: '', username: '', password: '' });
+            console.log(data);
             navigate('/');
         } catch (err) {
             if ((err as AxiosError).response?.data) {

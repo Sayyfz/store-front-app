@@ -37,7 +37,7 @@ export class UserRepository implements IBaseRepository<User> {
             await client.query('BEGIN');
             const sql = `INSERT INTO users(first_name, last_name, username, password)
                 VALUES($1, $2, $3, $4)
-                RETURNING first_name, last_name, username;
+                RETURNING id, first_name, last_name, username;
                 `;
 
             const hash = bcrypt.hashSync(
@@ -71,7 +71,7 @@ export class UserRepository implements IBaseRepository<User> {
         const conn = await client.connect();
         try {
             const sql =
-                'UPDATE users SET first_name=($1), last_name=($2), username=($3), password=($4) WHERE id=($5) RETURNING first_name, last_name, username';
+                'UPDATE users SET first_name=($1), last_name=($2), username=($3), password=($4) WHERE id=($5) RETURNING id, first_name, last_name, username';
 
             const hash = bcrypt.hashSync(
                 user.password + process.env.PEPPER,
@@ -110,7 +110,7 @@ export class UserRepository implements IBaseRepository<User> {
         const conn = await client.connect();
         let user: User;
         try {
-            const sql = 'SELECT * FROM users WHERE username=$1';
+            const sql = 'SELECT id, username, first_name, last_name, FROM users WHERE username=$1';
             const result = await conn.query(sql, [username]);
             throwErrorOnNotFound(result, 'user', 'Incorrect username');
 
