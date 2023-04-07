@@ -1,6 +1,7 @@
 import express from 'express';
 import cartRoute from './cartRoute';
 import categoryRoute from './categoriesRoute';
+import checkoutRoute from './checkoutRoute';
 import dashboardRoutes from './dashboardRoute';
 import productImagesRoute from './productImagesRoute';
 import productsRoute from './productsRoute';
@@ -17,6 +18,7 @@ indexRoute.use('/products', productsRoute);
 indexRoute.use('/categories', categoryRoute);
 indexRoute.use('/carts', cartRoute);
 indexRoute.use('/product-images', productImagesRoute);
+indexRoute.use('/checkout', checkoutRoute);
 indexRoute.use('/services', dashboardRoutes);
 
 export default indexRoute;

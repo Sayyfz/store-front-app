@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import './cart-card.scss';
 import CartItem from './CartItem';
 import { fetchCartFromStorage } from '../../slices/cart-slice';
+import CheckoutBtn from '../Buttons and Inputs/CheckoutBtn';
 
 const CartCard = () => {
     const dispatch = useAppDispatch();
@@ -38,12 +39,15 @@ const CartCard = () => {
                 )}
             </>
             <div
-                className={`cart-footer d-flex justify-content-center fs-5 pt-3 ${
+                className={`cart-footer d-flex justify-content-center align-items-center fs-5 pt-3 mb-3 ${
                     cart && Object.keys(cart).length ? 'd-block' : 'd-none'
                 }`}
             >
                 <span style={{ fontWeight: '500' }}>Total: </span>{' '}
                 <span className='ms-2 my-auto'>{totalPrice}$</span>
+            </div>
+            <div className='d-flex justify-content-center'>
+                <CheckoutBtn />
             </div>
         </div>
     );

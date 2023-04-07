@@ -5,18 +5,20 @@ import { CartType } from '../../types/Cart';
 import { ProductType } from '../../types/Product';
 import CoolBtn from '../Buttons and Inputs/CoolBtn';
 import '../Buttons and Inputs/cool-search.scss';
-import { getCookie } from '../../helpers/Cookies';
 import { useNavigate } from 'react-router-dom';
+import CheckoutBtn from '../Buttons and Inputs/CheckoutBtn';
 
 const ProductBuyArea = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const cart = useAppSelector(state => state.cart.cart) as CartType;
     const product = useAppSelector(state => state.items.currentItem) as ProductType;
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
+
     const [quantity, setQuantity] = useState<number>(1);
 
     const addToCart = () => {
-        if (getCookie('isLoggedIn') !== 'true') {
+        if (!isLoggedIn) {
             navigate('/login');
             return;
         }
@@ -30,6 +32,9 @@ const ProductBuyArea = () => {
         if (quantity === 0) return;
 
         setQuantity(quantity => quantity - 1);
+    };
+    const checkout = () => {
+        navigate('/checkout');
     };
 
     return (
@@ -59,8 +64,9 @@ const ProductBuyArea = () => {
                 />
                 <CoolBtn title='+' onClick={() => increment()} />
             </div>
-            <div className='add-to-cart-btn w-100'>
+            <div className='add-to-cart-btn w-100 d-flex flex-column gap-3'>
                 <CoolBtn title='Add to cart' onClick={addToCart} />
+                <CheckoutBtn />
             </div>
         </div>
     );

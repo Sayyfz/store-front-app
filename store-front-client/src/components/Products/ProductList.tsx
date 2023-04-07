@@ -24,7 +24,7 @@ const ProductList = ({ items }: ProductListProps) => {
                 ? (searchedItems as ProductType[]).map((item: ProductType) => (
                       <ProductCard key={item.id} item={item} />
                   ))
-                : items.errors.map((error, idx) => <p key={idx}>{error.message}</p>)}
+                : items?.errors?.map((error, idx) => <p key={idx}>{error.message}</p>)}
         </div>
     );
 };
