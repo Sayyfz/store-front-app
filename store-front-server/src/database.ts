@@ -31,6 +31,13 @@ if (ENV === 'dev') {
     client = new Pool({
         connectionString: POSTGRES_CONN_STRING,
     });
+} else {
+    client = new Pool({
+        database: POSTGRES_DB,
+        host: POSTGRES_HOST,
+        user: POSTGRES_USER,
+        password: POSTGRES_PASSWORD,
+    });
 }
 
 export default client!;

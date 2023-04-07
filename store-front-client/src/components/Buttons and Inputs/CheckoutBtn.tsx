@@ -1,4 +1,3 @@
-import { Container } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { CartType } from '../../types/Cart';
 import { useEffect } from 'react';
