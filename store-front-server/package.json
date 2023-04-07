@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "set ENV=dev&& nodemon -r dotenv/config src/index.ts",
         "prod": "set ENV=production&& nodemon -r dotenv/config src/index.ts",
-        "build": "npx tsc",
+        "build": "npm install && npx tsc",
         "start": "npm run build && node -r dotenv/config dist/index",
         "migrate-up:prod": "set ENV=production&& db-migrate reset -e production && db-migrate up -e production",
         "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./api/index.js\"",
