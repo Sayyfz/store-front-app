@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UserRepository_1 = __importDefault(require("../repositories/UserRepository"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const Helpers_1 = require("../utils/Helpers");
+const CartServices_1 = __importDefault(require("../services/CartServices"));
 class UserController {
     constructor(repository) {
         this.index = async (req, res, next) => {
@@ -25,7 +26,8 @@ class UserController {
             };
             try {
                 const newUser = await this.repository.create(user);
-                const token = jsonwebtoken_1.default.sign({ user: newUser }, process.env.TOKEN_SECRET);
+                const cart = await CartServices_1.default.get_cart_with_items(newUser.id);
+                const token = jsonwebtoken_1.default.sign({ user: newUser, cart }, process.env.TOKEN_SECRET);
                 return res.status(201).json(token);
             }
             catch (err) {
@@ -53,7 +55,8 @@ class UserController {
         };
         this.authenticate = async (req, res, next) => {
             const user = await this.repository.authenticate(req.body.username, req.body.password);
-            const token = jsonwebtoken_1.default.sign({ user }, process.env.TOKEN_SECRET);
+            const cart = await CartServices_1.default.get_cart_with_items(user.id);
+            const token = jsonwebtoken_1.default.sign({ user, cart }, process.env.TOKEN_SECRET);
             return res.status(200).json(token);
         };
         this.repository = repository;

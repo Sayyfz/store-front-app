@@ -8,7 +8,7 @@ const UserController_1 = __importDefault(require("../controllers/UserController"
 const verifyToken_1 = require("../middlewares/verifyToken");
 require("express-async-errors");
 const usersRoute = express_1.default.Router();
-usersRoute.get('/', verifyToken_1.verifyToken, UserController_1.default.index);
+usersRoute.get('/', UserController_1.default.index);
 usersRoute.post('/', UserController_1.default.create);
 usersRoute.get('/:id', verifyToken_1.verifyToken, UserController_1.default.show);
 usersRoute.delete('/:id', verifyToken_1.verifyToken, UserController_1.default.delete);

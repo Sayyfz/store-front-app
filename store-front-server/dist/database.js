@@ -25,4 +25,12 @@ else if (ENV === 'production') {
         connectionString: POSTGRES_CONN_STRING,
     });
 }
+else {
+    client = new pg_1.Pool({
+        database: POSTGRES_DB,
+        host: POSTGRES_HOST,
+        user: POSTGRES_USER,
+        password: POSTGRES_PASSWORD,
+    });
+}
 exports.default = client;

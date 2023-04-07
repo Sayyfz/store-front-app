@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ProductRepository_1 = __importDefault(require("../repositories/ProductRepository"));
 const Helpers_1 = require("../utils/Helpers");
-const ThrowError_1 = require("../utils/ThrowError");
 class ProductController {
     constructor(repository) {
         this.index = async (req, res, next) => {
@@ -18,14 +17,10 @@ class ProductController {
         };
         this.create = async (req, res, next) => {
             try {
-                if (!req.file) {
-                    (0, ThrowError_1.throwValidationError)('Please upload a product image to proceed');
-                }
                 const product = {
                     name: req.body.name,
                     price: req.body.price,
-                    category: req.body.category.toLowerCase(),
-                    img: req.file?.filename,
+                    category_id: req.body.category_id,
                 };
                 const newProduct = await this.repository.create(product);
                 return res.status(201).json(newProduct);
@@ -40,14 +35,10 @@ class ProductController {
         };
         this.update = async (req, res, next) => {
             try {
-                if (!req.file) {
-                    (0, ThrowError_1.throwValidationError)('Please upload a product image to proceed');
-                }
                 const product = {
                     name: req.body.name,
                     price: req.body.price,
-                    category: req.body.category.toLowerCase(),
-                    img: req.file?.filename,
+                    category_id: req.body.category_id,
                 };
                 const newProduct = await this.repository.update(req.params.id, product);
                 return res.status(200).json(newProduct);

@@ -5,6 +5,7 @@
     "main": "src/index.ts",
     "scripts": {
         "dev": "set ENV=dev&& nodemon -r dotenv/config src/index.ts",
+        "prod": "set ENV=production&& nodemon -r dotenv/config src/index.ts",
         "build": "npx tsc",
         "start": "npm run build && nodemon -r dotenv/config dist/index",
         "migrate-up:prod": "set ENV=production&& db-migrate reset -e production && db-migrate up -e production",

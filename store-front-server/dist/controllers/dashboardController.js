@@ -6,34 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const DashboardRepository_1 = __importDefault(require("../repositories/DashboardRepository"));
 class DashboardController {
     constructor(repository) {
-        this.current_orders_by_user = async (req, res) => {
-            try {
-                const orders = await this.repository.current_orders_by_user(parseInt(req.params.id));
-                return res.status(200).json(orders);
-            }
-            catch (err) {
-                return res.status(400).json(err.message);
-            }
-        };
-        this.completed_orders_by_user = async (req, res) => {
-            try {
-                const orders = await this.repository.completed_orders_by_user(parseInt(req.params.id));
-                return res.status(200).json(orders);
-            }
-            catch (err) {
-                return res.status(400).json(err.message);
-            }
-        };
         this.products_by_category = async (req, res) => {
-            try {
-                if (!req.params.category)
-                    throw 'Please add a valid category';
-                const products = await this.repository.products_by_category(req.params.category.toLowerCase());
-                return res.status(200).json(products);
-            }
-            catch (err) {
-                return res.status(400).json(err.message);
-            }
+            if (!req.params.categoryId)
+                throw 'Please add a valid categoryId';
+            const products = await this.repository.products_by_category(+req.params.categoryId);
+            return res.status(200).json(products);
+        };
+        this.products_search = async (req, res) => {
+            const { name } = req.query;
+            const products = await this.repository.products_search(name);
+            return res.status(200).json(products);
         };
         this.repository = repository;
     }

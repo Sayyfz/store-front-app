@@ -11,7 +11,7 @@ class UserRepository {
     async index() {
         const conn = await database_1.default.connect();
         try {
-            const sql = 'SELECT * FROM users';
+            const sql = 'SELECT first_name, last_name, username FROM users';
             const result = await conn.query(sql);
             (0, ThrowError_1.throwErrorOnNotFound)(result, 'users');
             return result.rows;
@@ -23,7 +23,7 @@ class UserRepository {
     async show(id) {
         const conn = await database_1.default.connect();
         try {
-            const sql = 'SELECT * FROM users WHERE id=($1)';
+            const sql = 'SELECT first_name, last_name, username FROM users WHERE id=($1)';
             const result = await conn.query(sql, [id]);
             (0, ThrowError_1.throwErrorOnNotFound)(result, 'user', `Cannot find user with id ${id}`);
             return result.rows[0];
@@ -35,7 +35,11 @@ class UserRepository {
     async create(user) {
         const conn = await database_1.default.connect();
         try {
-            const sql = 'INSERT INTO users (first_name, last_name, username, password) VALUES($1, $2, $3, $4) RETURNING *';
+            await database_1.default.query('BEGIN');
+            const sql = `INSERT INTO users(first_name, last_name, username, password)
+                VALUES($1, $2, $3, $4)
+                RETURNING first_name, last_name, username;
+                `;
             const hash = bcrypt_1.default.hashSync(user.password + process.env.PEPPER, parseInt(process.env.SALT_ROUNDS || '10'));
             const result = await conn.query(sql, [
                 user.firstName,
@@ -44,7 +48,15 @@ class UserRepository {
                 hash,
             ]);
             (0, ThrowError_1.throwErrorOnNotFound)(result, 'user');
+            const createCartSql = 'INSERT INTO carts(total_price, user_id, order_status) VALUES($1, $2, $3) RETURNING *';
+            await conn.query(createCartSql, [0, result.rows[0].id, 'active']);
+            console.log(result.rows[0].id);
+            await database_1.default.query('COMMIT');
             return result.rows[0];
+        }
+        catch (err) {
+            await database_1.default.query('ROLLBACK');
+            throw err;
         }
         finally {
             conn.release();
@@ -53,7 +65,7 @@ class UserRepository {
     async update(id, user) {
         const conn = await database_1.default.connect();
         try {
-            const sql = 'UPDATE users SET first_name=($1), last_name=($2), username=($3), password=($4) WHERE id=($5) RETURNING *';
+            const sql = 'UPDATE users SET first_name=($1), last_name=($2), username=($3), password=($4) WHERE id=($5) RETURNING first_name, last_name, username';
             const hash = bcrypt_1.default.hashSync(user.password + process.env.PEPPER, parseInt(process.env.SALT_ROUNDS || '10'));
             const result = await conn.query(sql, [
                 user.firstName,
@@ -85,12 +97,13 @@ class UserRepository {
         const conn = await database_1.default.connect();
         let user;
         try {
-            const sql = 'SELECT password FROM users WHERE username=$1';
+            const sql = 'SELECT * FROM users WHERE username=$1';
             const result = await conn.query(sql, [username]);
-            (0, ThrowError_1.throwErrorOnNotFound)(result, 'user');
+            (0, ThrowError_1.throwErrorOnNotFound)(result, 'user', 'Incorrect username');
             user = result.rows[0];
-            if (bcrypt_1.default.compareSync(password + process.env.PEPPER, user.password))
-                return user;
+            if (!bcrypt_1.default.compareSync(password + process.env.PEPPER, user.password))
+                (0, ThrowError_1.throwValidationError)('Password is not correct');
+            return user;
         }
         finally {
             conn.release();
