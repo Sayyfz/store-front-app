@@ -1,6 +1,5 @@
 import multer from 'multer';
 import path from 'path';
-import { productsPath } from '../constants/constants';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

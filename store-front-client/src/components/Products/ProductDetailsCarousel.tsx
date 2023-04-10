@@ -6,7 +6,6 @@ interface ProductDetailsCarouselProps {
     images?: ImagesType;
 }
 const ProductDetailsCarousel = ({ images }: ProductDetailsCarouselProps) => {
-    images = [];
     return (
         <>
             {images && images?.length > 0 ? (
