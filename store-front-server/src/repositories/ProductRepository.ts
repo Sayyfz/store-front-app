@@ -12,7 +12,7 @@ export class ProductRepository implements IBaseRepository<Product> {
         const conn = await client.connect();
         try {
             const sql = `SELECT products.*, product_images.id AS image_id, product_images.image_url AS image_url
-            FROM products LEFT JOIN product_images ON products.id = product_images.product_id`;
+            FROM products LEFT JOIN product_images ON products.id = product_images.product_id ORDER BY image_id`;
             const result = await conn.query(sql);
             throwErrorOnNotFound(result, 'products');
 

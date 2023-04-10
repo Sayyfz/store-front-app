@@ -50,6 +50,7 @@ const itemSlice = createSlice({
 export const getItem = createAsyncThunk('getItems/getItem', async (id: number, thunkAPI) => {
     try {
         const { data } = await client.get(import.meta.env.VITE_API_URL + endpoint + `/${id}`);
+
         return data;
     } catch (error) {
         console.log(error);
