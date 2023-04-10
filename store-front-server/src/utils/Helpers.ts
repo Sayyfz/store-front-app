@@ -2,7 +2,6 @@ import { DatabaseError } from 'pg-protocol';
 import ValidationError from './ValidationError';
 import { NextFunction } from 'express';
 import BadRequestError from './BadRequestError';
-import { QueryResult } from 'pg';
 
 export const checkErrorAndNext = (err: Error, entity: string, next: NextFunction) => {
     if (err instanceof DatabaseError) {
@@ -24,7 +23,6 @@ export const checkErrorAndNext = (err: Error, entity: string, next: NextFunction
 
 export const reformatProducts = (rows: any[]) => {
     const products: { [key: string]: unknown } = {};
-
     rows.forEach(row => {
         const { id, name, price, category_id, image_id, image_url } = row;
         if (!products[id]) {
