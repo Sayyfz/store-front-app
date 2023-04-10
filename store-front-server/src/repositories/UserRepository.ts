@@ -110,14 +110,15 @@ export class UserRepository implements IBaseRepository<User> {
         const conn = await client.connect();
         let user: User;
         try {
-            const sql = 'SELECT id, username, first_name, last_name, FROM users WHERE username=$1';
+            const sql =
+                'SELECT id, username, first_name, last_name, password FROM users WHERE username=$1';
             const result = await conn.query(sql, [username]);
             throwErrorOnNotFound(result, 'user', 'Incorrect username');
-
             user = result.rows[0];
 
             if (!bcrypt.compareSync(password + process.env.PEPPER, user.password))
                 throwValidationError('Password is not correct');
+
             return user;
         } finally {
             conn.release();

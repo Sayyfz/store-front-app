@@ -30,8 +30,15 @@ class UserController {
             password: req.body.password,
         };
         try {
-            const newUser = await this.repository.create(user);
+            let newUser = await this.repository.create(user);
             const cart = await CartServices.get_cart_with_items(newUser.id as string);
+            // @ts-ignore
+            newUser = {
+                id: newUser.id,
+                firstName: newUser.firstName,
+                lastName: newUser.lastName,
+                username: newUser.username,
+            };
             const token = jwt.sign({ user: newUser, cart }, process.env.TOKEN_SECRET as string);
             return res.status(201).json(token);
         } catch (err) {
