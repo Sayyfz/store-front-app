@@ -6,6 +6,7 @@ interface ProductDetailsCarouselProps {
     images?: ImagesType;
 }
 const ProductDetailsCarousel = ({ images }: ProductDetailsCarouselProps) => {
+    images = [];
     return (
         <>
             {images && images?.length > 0 ? (
@@ -20,7 +21,13 @@ const ProductDetailsCarousel = ({ images }: ProductDetailsCarouselProps) => {
                         </Carousel.Item>
                     ))}
                 </Carousel>
-            ) : null}
+            ) : (
+                <Carousel
+                    className='product-details-carousel w-100'
+                    interval={null}
+                    variant='dark'
+                ></Carousel>
+            )}
         </>
     );
 };

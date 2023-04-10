@@ -39,10 +39,10 @@ const ProductBuyArea = () => {
 
     return (
         <div className='product-details-item w-100 d-flex flex-column gap-3'>
-            <h3>{product.name}</h3>
+            <h3>{product?.name}</h3>
             <div>
                 <span>Price </span>
-                {product.price * quantity}$
+                {(product?.price || 0) * quantity}$
             </div>
             <div className='d-flex gap-4 justify-content-center align-items-center'>
                 <CoolBtn title='-' onClick={() => decrement()} />
