@@ -3,13 +3,15 @@ import indexRoute from './routes/indexRoute';
 import { productsPath } from './constants/constants';
 import errorHandler from './middlewares/globalErrorHandler';
 import cors from 'cors';
+import path from 'path';
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors());
-app.use('/images', express.static(productsPath));
+app.use('/images', express.static(path.join(__dirname, productsPath)));
+console.log(__dirname + '/' + productsPath);
 
 app.use('/api', indexRoute);
 

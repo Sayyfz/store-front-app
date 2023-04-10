@@ -4,7 +4,7 @@ import { productsPath } from '../constants/constants';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, productsPath);
+        cb(null, 'public/content');
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}${path.extname(file.originalname)}`);

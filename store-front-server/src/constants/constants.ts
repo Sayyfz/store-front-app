@@ -1,1 +1,1 @@
-export const productsPath = 'public/content';
+export const productsPath = '../public/content';
