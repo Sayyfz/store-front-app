@@ -1,6 +1,5 @@
 import express from 'express';
 import Controller from '../controllers/dashboardController';
-import { verifyToken } from '../middlewares/verifyToken';
 import 'express-async-errors';
 
 const dashboardRoutes = express.Router();

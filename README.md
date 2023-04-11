@@ -2,14 +2,15 @@
   <br>
   
   <br>
-  Store Front App
+  E-Watches
   <br>
 </h1>
 
-<h4 align="center">Backend App for E-Commerce Website
+<h4 align="center">Full-Stack App for E-Commerce Website
 
 <p align="center">
   <a href="#overview">Overview</a> •
+  <a href="#screenshots">Screenshots</a> •
   <a href="#how-to-use">How To Use</a> •  
   <a href="#endpoints">Endpoints</a> •
   <a href="#data-shapes">Data Shapes</a> •
@@ -21,8 +22,21 @@
 ## Overview
 
 <br />
-This app exposes endpoints to store and retrieve data from a PostgreSQL database that can be used for an E-Commerce application.
-For information on how to use it on your pc please check the information provided below.
+This is a Full-Stack E-commerce app that specializes in selling watches, it simulates all the user experience starting from creating an account to simulating a transaction, this includes browsing products, searching and filtering products, adding and removing them from cart, and checking out your personal cart  
+<br />
+<br />
+
+## Screenshots
+
+<div align="center"> 
+  <img src="screenshots/1.png" alt="screenshot" /> <br /><br />
+  <img src="screenshots/3.png" alt="screenshot" /> <br /><br />
+  <img src="screenshots/4.png" alt="screenshot" /><br /><br />
+  <img src="screenshots/5.png" alt="screenshot" /><br /><br />
+  <img src="screenshots/6.png" alt="screenshot" /><br /><br />
+  <img src="screenshots/7.png" alt="screenshot" /><br /><br />
+</div>
+
 <br />
 <br />
 
@@ -91,32 +105,64 @@ $ psql -u <username> -p <port> -D <database_name>
 -   **GET** /users to get all users (token required)
 -   **GET** /users/:id to get a specific user using the id (token required)
 -   **POST** /users to create a new user (Please check the data shapes to see what you should enter in the body)
--   **POST** /authenticate to authenticate a user by entering username and password
+-   **POST** /users/authenticate to authenticate a user by entering username and password
+-   **PATCH** /users/:id to update user credentials
+-   **DELETE** /users/:id to delete a user
     <br />
     <br />
 
 #### **Products Routes**
 
 -   **GET** /products to get all products
--   **GET** /products/:id to get a specific product using the id
--   **POST** /products to create a new product (token required) (Please check the data shapes to see what you should enter in the body)
+-   **GET** /products/:id to get a specific cart using the id
+-   **PATCH** /products/:id to update product details
+-   **POST** /products to create a new product (Check the data shapes to see what you should enter in the body)
+-   **DELETE** /products/:id to delete a product
     <br />
     <br />
 
-#### **Orders Routes**
+#### **Carts Routes**
 
--   **GET** /orders to get all orders
--   **GET** /orders/:id to get a specific order using the id
--   **POST** /orders to create a new order (token required) (Please check the data shapes for more info)
--   **POST** /orders/:id/products to add a specific product to an order (Please check the data shapes to see what you should enter in the body)
+-   **GET** /carts to get all carts
+-   **GET** /carts/:id to get a specific cart using the id
+-   **POST** /carts to create a new cart (Check the data shapes for more info)
+-   **PATCH** /carts/:id to update cart details
+-   **DELETE** /carts/:id to delete a cart
+-   **POST** /carts/:id/products to add a product to a specific cart (Check the data shapes to see what you should enter in the body)
+    **DELETE** /carts/:id/products/:product_id delete a specific product from a specific cart
+    <br />
+    <br />
+
+#### **Categories Routes**
+
+-   **GET** /categories to get all categories
+-   **GET** /categories/:id to get a specific category using the id
+-   **PATCH** /categories/:id to update category details
+-   **POST** /categories to create a new category (Check the data shapes to see what you should enter in the body)
+-   **DELETE** /categories/:id to delete a category
+    <br />
+    <br />
+
+#### **Product Images Routes**
+
+-   **GET** /product-images to get all product images
+-   **GET** /product-images/:id to get a specific product image using the id
+-   **PATCH** /product-images/:id to update product image details
+-   **POST** /product-images to create a new product image (Check the data shapes to see what you should enter in the body)
+-   **DELETE** /product-images/:id to delete a product image
+    <br />
+    <br />
+
+#### **Checkout Route**
+
+-   **POST** /checkout to send checkout details
     <br />
     <br />
 
 #### **Services Routes**
 
--   **GET** /current_orders_by_user/:id to get active orders by user (token required)
--   **GET** /completed_orders_by_user/:id to get completed orders by user (token required)
--   **GET** /products_by_category/:category to get products that belong to a specific category
+-   **GET** /products_by_category/:categoryId to get products by category
+-   **GET** /products_search to get products by search query
     <br />
     <br />
 
@@ -137,18 +183,27 @@ $ psql -u <username> -p <port> -D <database_name>
 
 -   name: string
 -   price: number
--   category: string
+-   category_id: string
 
-#### **Order**
+#### **Cart**
 
 -   user_id: number
--   status: string
+-   total_price: number
+-   order_status: string
 
-#### **Products Inside Orders**
+#### **Products Inside Carts**
 
--   order_id: number
 -   product_id: number
 -   quantity: number
+
+#### **Category**
+
+-   name: string
+
+#### **Product Image**
+
+-   image_url: string (To enter an image just enter form-data instead of request body and attach an image to a field called image instead of image_url)
+-   product_id: number
 
 ## Credits
 

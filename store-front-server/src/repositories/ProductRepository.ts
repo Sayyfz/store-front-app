@@ -6,7 +6,6 @@ import { deleteFile } from '../utils/deleteFile';
 import { reformatProducts } from '../utils/Helpers';
 import { throwErrorOnNotFound } from '../utils/ThrowError';
 import IBaseRepository from './interfaces/IBaseRepository';
-import fs from 'fs';
 
 export class ProductRepository implements IBaseRepository<Product> {
     async index(): Promise<Product[]> {
@@ -50,16 +49,6 @@ export class ProductRepository implements IBaseRepository<Product> {
                     product.images.push({ id: image_id, imageUrl: image_url });
                 }
             });
-            const p = product.images[0] as any;
-
-            fs.readFile('public/content/' + p.imageUrl, (err, file) => {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-                console.log(file);
-            });
-            console.log('object');
 
             return product;
         } finally {
