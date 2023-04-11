@@ -11,9 +11,6 @@ import Filters from '../components/Filter Sidebar/Filters';
 const Home = () => {
     const dispatch = useAppDispatch();
     let items: ProductType[] | ResponseError = useAppSelector(state => state.items.value);
-    console.log(import.meta.env.VITE_API_URL);
-    console.log('__________________');
-    console.log(import.meta.env);
     useEffect(() => {
         dispatch(getItems());
     }, []);
