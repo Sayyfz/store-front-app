@@ -211,6 +211,10 @@ This software uses the following libraries and frameworks:
 
 -   [Node.js](https://nodejs.org/)
 -   [Express.js](https://expressjs.com/)
+-   [React](https://react.dev/learn)
+-   [Redux](https://redux.js.org/redux-toolkit/overview/#:~:text=What%20is%20Redux%20Toolkit%3F%23%20Redux%20Toolkit%20is%20our,defining%20reducers%2C%20immutable%20update%20logic%2C%20and%20even%20)
+-   [Stripe](https://stripe.com/docs/payments)
+-   [TypeScript](https://www.typescriptlang.org/)
 -   [PostgreSQL](https://www.postgresql.org/)
 -   [Jasmine](https://jasmine.github.io/)
 -   [TypeScript](https://www.typescriptlang.org/)
@@ -218,3 +222,4 @@ This software uses the following libraries and frameworks:
 -   [Json Web Token](https://www.npmjs.com/package/jsonwebtoken)
 -   [bcrypt](https://www.npmjs.com/package/bcrypt)
 -   [db-migrate](https://www.npmjs.com/package/db-migrate)
+
